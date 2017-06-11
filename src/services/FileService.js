@@ -27,6 +27,28 @@ const FileService = {
       }
 
     });
+  },
+
+  getSourceCode(dispatch, url) {
+    var Success = false;
+    var results = null;
+    var getSource = $.ajax({
+      type: "GET",
+      method: "GET",
+      crossDomain: true,
+      url: 'http://localhost:8000/src/utils/readSourceCode.php',
+      dataType: 'text',
+
+      success: function (obj, textstatus) {
+        results = obj;
+      },
+      error: function(obj) {
+        // create variable error
+        results = obj;
+      }
+
+    });
+    return $.when(getSource);
   }
 }
 

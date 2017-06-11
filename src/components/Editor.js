@@ -19,9 +19,16 @@ const Editor = React.createClass({
     return {
       mode: 'html',
       theme: 'kr_theme',
-      editorValue: '',
+      editorValue: this.props.fileData.currentFile.toString(),
       fileName: null
     };
+  },
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (!this.state.editorValue && nextProps.fileData.currentFile !== this.state.editorValue) {
+      this.setState({ editorValue: nextProps.fileData.currentFile.toString() });
+    }
   },
 
   propTypes: {
@@ -53,6 +60,8 @@ const Editor = React.createClass({
   },
 
   _renderThemePicker() {
+    console.log(this.props.fileData.currentFile.toString());
+    console.log(this.state.editorValue);
     return (
       <select onChange={(e) => this._changeCurrentTheme(e)}>
         <option default value="github">github</option>
@@ -67,7 +76,7 @@ const Editor = React.createClass({
     const { editorValue, fileName } = this.state;
     const fileContents = document.getElementById(fileName);
     const argumentsList = [fileName, editorValue];
-    console.log(editorValue);
+    console.log('editorval: ', editorValue);
     this.props.saveFile(fileName, editorValue);
     // var xmlhttp = new XMLHttpRequest();
     // xmlhttp.open("POST", "utils/Files.php", true);
@@ -76,6 +85,7 @@ const Editor = React.createClass({
   },
 
   _onEditorChange(value) {
+    console.log('newval: ', value);
     this.setState({
       editorValue: value
     })
@@ -87,6 +97,7 @@ const Editor = React.createClass({
     this.setState({
       fileName: value
     });
+    this.props.getSourceCode('urlHere');
   },
 
   render() {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Editor from '../components/Editor';
-import { saveFile } from '../actions/FileActions';
+import { saveFile, getSourceCode } from '../actions/FileActions';
 
 class EditorPage extends Component {
   getInitialState() {
@@ -25,6 +25,8 @@ class EditorPage extends Component {
       return (
         <Editor
           saveFile={this.props.actions.saveFile}
+          getSourceCode={this.props.actions.getSourceCode}
+          fileData={this.props.fileData}
         />
       );
     } else {
@@ -39,13 +41,16 @@ class EditorPage extends Component {
 }
 
 function mapStateToProps(state) {
-  return;
+  return {
+    fileData: state.fileData
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      saveFile
+      saveFile,
+      getSourceCode
     }, dispatch)
   };
 }

@@ -16,3 +16,19 @@ export function saveFile(name, contents) {
       });
     });
 }
+
+export function getSourceCode(url) {
+  return dispatch =>
+    new Promise((resolve, reject) => {
+      FileService.getSourceCode(dispatch, url).then((response) => {
+        if (response) {
+          dispatch({type: types.GET_SOURCE_CODE, response: response});
+        } else {
+          dispatch({type: types.GET_SOURCE_CODE_ERROR});
+        }
+        resolve(response);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+}
