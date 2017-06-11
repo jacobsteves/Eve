@@ -2,6 +2,7 @@ import $ from 'jQuery'
 
 const FileService = {
   saveFile(dispatch, name, contents) {
+    var Success = false;
     $.ajax({
       type: "POST",
       method: "POST",
@@ -11,14 +12,20 @@ const FileService = {
       data: {functionname: 'add', arguments: [name, contents]},
 
       success: function (obj, textstatus) {
+        console.log(obj);
+        console.log(textstatus);
         if( !('error' in obj) ) {
-            console.log('ya');
-            console.log(obj);
+            return textstatus;
         }
         else {
-            console.log('no');
+            return 'error';
         }
+      },
+      error: function(obj) {
+        // create variable error
+        console.log('Error saving file.');
       }
+
     });
   }
 }

@@ -20,10 +20,13 @@
             $arrayResult['error'] = 'Error in arguments!';
           }
           else {
-            $fileName = $_POST['arguments'][0];
+            $directory = "../../files/";
+            $fileName = $directory . $_POST['arguments'][0];
             $contents = $_POST['arguments'][1];
             file_put_contents($fileName, $contents, LOCK_EX);
-            $arrayResult['result'] = add(floatval($_POST['arguments'][0]), floatval($_POST['arguments'][1]));
+            $results = array();
+            array_push($results, $_POST['arguments'][0], $_POST['arguments'][1]);
+            $arrayResult['result'] = $results;
           }
           break;
 
