@@ -6,8 +6,30 @@ import {bindActionCreators} from 'redux';
 import Editor from '../components/Editor';
 
 class EditorPage extends Component {
+  getInitialState() {
+    return {
+      fileName: ''
+    };
+  }
+
+  _changeFileName(e) {
+    e.preventDefault();
+    this.setState({
+      fileName: e.target.value
+    });
+  }
+
   render() {
-    return <Editor />;
+    if (true) {
+      return <Editor />
+    } else {
+      return (
+        <div>
+          <h3>Please create a filename</h3>
+          <input type='text' onSubmit={(e) => this._changeFileName(e)} />
+        </div>
+      )
+    }
   }
 }
 

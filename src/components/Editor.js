@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { Link } from 'react-router';
 import brace from 'brace';
 import AceEditor from 'react-ace';
-import { split } from 'react-ace';
+import {split as SplitEditor} from 'react-ace';
 
 import 'brace/mode/html';
 import 'brace/mode/java';
@@ -17,7 +17,9 @@ const Editor = React.createClass({
   getInitialState() {
     return {
       mode: 'html',
-      theme: 'kr_theme'
+      theme: 'kr_theme',
+      editorValue: '',
+      fileName: null
     };
   },
 
@@ -26,7 +28,6 @@ const Editor = React.createClass({
     this.setState({
       mode: e.target.value
     });
-    console.log(e.target.value);
   },
 
   _changeCurrentTheme(e) {
@@ -34,7 +35,6 @@ const Editor = React.createClass({
     this.setState({
       theme: e.target.value
     });
-    console.log(e.target.value);
   },
 
   _renderLangaugePicker() {
@@ -63,31 +63,59 @@ const Editor = React.createClass({
       mode: this.state.mode === 'java' ? 'html' : 'java',
       theme: this.state.theme === 'github' ? 'kr_theme' : 'github'
     });
-    //console.log('dope');
+  },
+
+  _onEditorChange(value) {
+    this.setState({
+      editorValue: value
+    })
+  },
+
+  _changeFileName(e) {
+    e.preventDefault();
+    const value = ReactDOM.findDOMNode(this.refs.fileNameInput).value;
+    console.log(e);
+    this.setState({
+      fileName: value
+    });
   },
 
   render() {
     return (
       <div>
         <h1>React Slingshot</h1>
-
-        <h2>Get Started</h2>
-        <div style={{display: 'inline-block'}}>
-          {this._renderLangaugePicker()}
-          {this._renderThemePicker()}
-          <form onSubmit={(e) => this._setMode(e)}>
-            <input type='submit' value='Save'/>
-          </form>
-        </div>
-        <AceEditor
-          mode={this.state.mode}
-          theme={this.state.theme}
-          splits={3}
-          orientation="below"
-          value={''}
-          name="UNIQUE_ID_OF_DIV"
-          editorProps={{$blockScrolling: true}}
-        />
+        {this.state.fileName &&
+          <div>
+            <h2>Code!</h2>
+            <h4>{this.state.fileName}</h4>
+            <div style={{display: 'inline-block'}}>
+              {this._renderLangaugePicker()}
+              {this._renderThemePicker()}
+              <form onSubmit={(e) => this._setMode(e)}>
+                <input type='submit' value='Save'/>
+              </form>
+            </div>
+            <AceEditor
+              mode={this.state.mode}
+              theme={this.state.theme}
+              onChange={(value) => this._onEditorChange(value)}
+              splits={3}
+              orientation="below"
+              value={this.state.editorValue}
+              name="UNIQUE_ID_OF_DIV"
+              editorProps={{$blockScrolling: true}}
+            />
+          </div>
+        }
+        {!this.state.fileName &&
+          <div>
+            <h3>Please create a filename</h3>
+            <form onSubmit={(e) => this._changeFileName(e)}>
+              <input type='text' ref='fileNameInput' placeholder='example.js' />
+              <input type='submit'/>
+            </form>
+          </div>
+        }
       </div>
     );
   }
