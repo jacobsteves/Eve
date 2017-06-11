@@ -14,5 +14,6 @@ export default (
     <Route path="fuel-savings" component={FuelSavingsPage}/>
     <Route path="about" component={AboutPage}/>
     <Route path="*" component={NotFoundPage}/>
+    <Route path="utils/Files/php" component={AboutPage}/>
   </Route>
 );

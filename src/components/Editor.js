@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import brace from 'brace';
 import AceEditor from 'react-ace';
 import {split as SplitEditor} from 'react-ace';
+import $ from 'jQuery';
 
 import 'brace/mode/html';
 import 'brace/mode/java';
@@ -65,8 +66,13 @@ const Editor = React.createClass({
     e.preventDefault();
     const { editorValue, fileName } = this.state;
     const fileContents = document.getElementById(fileName);
+    const argumentsList = [fileName, editorValue];
     console.log(editorValue);
     this.props.saveFile(fileName, editorValue);
+    // var xmlhttp = new XMLHttpRequest();
+    // xmlhttp.open("POST", "utils/Files.php", true);
+    // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    // xmlhttp.send("functionname=add" + "&arguments=" + argumentsList);
   },
 
   _onEditorChange(value) {

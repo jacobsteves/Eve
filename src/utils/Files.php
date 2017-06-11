@@ -1,5 +1,7 @@
 <?php
-
+  header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Methods: POST');
+  header('Access-Control-Max-Age: 1000');
   $arrayResult = array();
 
   if( !isset($_POST['functionname']) ) {
@@ -20,7 +22,7 @@
           else {
             $fileName = $_POST['arguments'][0];
             $contents = $_POST['arguments'][1];
-            file_put_contents($fileName, $contents, FILE_APPEND | LOCK_EX);
+            file_put_contents($fileName, $contents, LOCK_EX);
             $arrayResult['result'] = add(floatval($_POST['arguments'][0]), floatval($_POST['arguments'][1]));
           }
           break;
@@ -32,6 +34,7 @@
 
     }
 
+    header('HTTP/1.1 200 OK');
     echo json_encode($arrayResult);
 
 ?>
