@@ -1,9 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Editor from '../components/Editor';
+import { saveFile } from '../actions/FileActions';
 
 class EditorPage extends Component {
   getInitialState() {
@@ -21,7 +22,11 @@ class EditorPage extends Component {
 
   render() {
     if (true) {
-      return <Editor />
+      return (
+        <Editor
+          saveFile={this.props.actions.saveFile}
+        />
+      );
     } else {
       return (
         <div>
@@ -33,4 +38,16 @@ class EditorPage extends Component {
   }
 }
 
-export default EditorPage;
+function mapStateToProps(state) {
+  return;
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      saveFile
+    }, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditorPage);

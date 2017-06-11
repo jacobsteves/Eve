@@ -23,6 +23,10 @@ const Editor = React.createClass({
     };
   },
 
+  propTypes: {
+    saveFile: React.PropTypes.func.isRequired
+  },
+
   _changeCurrentLanguage(e) {
     e.preventDefault();
     this.setState({
@@ -57,12 +61,12 @@ const Editor = React.createClass({
     );
   },
 
-  _setMode(e) {
+  _saveFile(e) {
     e.preventDefault();
-    this.setState({
-      mode: this.state.mode === 'java' ? 'html' : 'java',
-      theme: this.state.theme === 'github' ? 'kr_theme' : 'github'
-    });
+    const { editorValue, fileName } = this.state;
+    const fileContents = document.getElementById(fileName);
+    console.log(editorValue);
+    this.props.saveFile(fileName, editorValue);
   },
 
   _onEditorChange(value) {
@@ -74,7 +78,6 @@ const Editor = React.createClass({
   _changeFileName(e) {
     e.preventDefault();
     const value = ReactDOM.findDOMNode(this.refs.fileNameInput).value;
-    console.log(e);
     this.setState({
       fileName: value
     });
@@ -91,18 +94,19 @@ const Editor = React.createClass({
             <div style={{display: 'inline-block'}}>
               {this._renderLangaugePicker()}
               {this._renderThemePicker()}
-              <form onSubmit={(e) => this._setMode(e)}>
+              <form onSubmit={(e) => this._saveFile(e)}>
                 <input type='submit' value='Save'/>
               </form>
             </div>
             <AceEditor
+              ref='aceEditor'
               mode={this.state.mode}
               theme={this.state.theme}
               onChange={(value) => this._onEditorChange(value)}
               splits={3}
               orientation="below"
               value={this.state.editorValue}
-              name="UNIQUE_ID_OF_DIV"
+              name={this.state.fileName}
               editorProps={{$blockScrolling: true}}
             />
           </div>
