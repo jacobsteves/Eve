@@ -1,5 +1,5 @@
-# GoEdit
-A web application allowing users to edit code on their website directly through their site.
+# Eve
+Eve is a web application allowing users to edit code on their website directly through their site. [Adam](http://jacobsteves.ca) is a desktop version of Eve.
 
 ## Get Started
 ### Frontend
