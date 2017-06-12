@@ -1,4 +1,4 @@
-# Eve
+# ![project logo](http://www.jacobsteves.ca/images/eveLogo.png)Eve
 [![Eve](https://img.shields.io/badge/Steves-Eve%20v1.0.0-brightgreen.svg)]()
 [![Codeship](https://img.shields.io/codeship/d6c1ddd0-16a3-0132-5f85-2e35c05e22b1.svg)]()
 [![PyPI](https://img.shields.io/pypi/l/Django.svg)]()
