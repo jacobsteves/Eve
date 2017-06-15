@@ -76,12 +76,8 @@ const Editor = React.createClass({
     const { editorValue, fileName } = this.state;
     const fileContents = document.getElementById(fileName);
     const argumentsList = [fileName, editorValue];
-    console.log('editorval: ', editorValue);
+    //console.log('editorval: ', editorValue);
     this.props.saveFile(fileName, editorValue);
-    // var xmlhttp = new XMLHttpRequest();
-    // xmlhttp.open("POST", "utils/Files.php", true);
-    // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    // xmlhttp.send("functionname=add" + "&arguments=" + argumentsList);
   },
 
   _onEditorChange(value) {
@@ -115,6 +111,7 @@ const Editor = React.createClass({
         {fileDirectories && fileDirectories.map((directory, index) => {
           return (
             <li
+              className={'sideBarFileLink'}
               key={index}
               onClick={() => this._changeCurFile(directory)}>
                 {directory.toString()}
