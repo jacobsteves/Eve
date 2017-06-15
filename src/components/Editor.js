@@ -25,7 +25,7 @@ const Editor = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    //console.log(nextProps);
     if (!this.state.editorValue && nextProps.fileData.currentFile !== this.state.editorValue) {
       this.setState({ editorValue: nextProps.fileData.currentFile.toString() });
     }
@@ -60,8 +60,8 @@ const Editor = React.createClass({
   },
 
   _renderThemePicker() {
-    console.log(this.props.fileData.currentFile.toString());
-    console.log(this.state.editorValue);
+    //console.log(this.props.fileData.currentFile.toString());
+    //console.log(this.state.editorValue);
     return (
       <select onChange={(e) => this._changeCurrentTheme(e)}>
         <option default value="github">github</option>
@@ -91,6 +91,13 @@ const Editor = React.createClass({
     })
   },
 
+  _changeCurFile(directory) {
+    this.setState({
+      fileName: directory
+    });
+    this.props.getSourceCode(directory);
+  },
+
   _changeFileName(e) {
     e.preventDefault();
     const value = ReactDOM.findDOMNode(this.refs.fileNameInput).value;
@@ -98,6 +105,24 @@ const Editor = React.createClass({
       fileName: value
     });
     this.props.getSourceCode('urlHere');
+    this.props.getFileDirectories();
+  },
+
+  _renderFiles() {
+    const fileDirectories = this.props.fileData.fileDirectories;
+    return (
+      <ul>
+        {fileDirectories && fileDirectories.map((directory, index) => {
+          return (
+            <li
+              key={index}
+              onClick={() => this._changeCurFile(directory)}>
+                {directory.toString()}
+            </li>
+          );
+        })}
+      </ul>
+    );
   },
 
   render() {
@@ -126,6 +151,7 @@ const Editor = React.createClass({
               name={this.state.fileName}
               editorProps={{$blockScrolling: true}}
             />
+            {this._renderFiles()}
           </div>
         }
         {!this.state.fileName &&

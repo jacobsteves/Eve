@@ -1,19 +1,32 @@
 <?php
-// $dir = '../';
-// $files1 = scandir($dir);
-// $files2 = scandir($dir, 1);
+  // $dir = '../';
+  // $files1 = scandir($dir);
+  // $files2 = scandir($dir, 1);
 
-// print_r($files1);
-// echo "<br>";
-// print_r($files2);
-function SearchDirectory($dir) {
-  foreach (glob("$dir/*") as $filename) {
-      echo "$filename size " . filesize($filename) . "<br>";
-      if (is_dir($filename) && strpos($filename, 'node_modules') === false) {
-        SearchDirectory($filename);
-      }
+  header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Methods: POST');
+  header('Access-Control-Max-Age: 1000');
+  header('HTTP/1.1 200 OK');
+
+  $fileArray = array();
+
+  function SearchDirectory($dir) {
+    global $fileArray;
+    foreach (glob("$dir/*") as $fileName) {
+        array_push($fileArray, $fileName);
+        if (is_dir($fileName) && strpos($fileName, 'node_modules') === false) {
+          SearchDirectory($fileName);
+        }
+    }
   }
-}
 
-SearchDirectory('../..');
+  SearchDirectory('../..');
+
+  // $len = count($fileArray);
+  // for($i = 0; $i < $len; $i++) {
+  //   echo $fileArray[$i];
+  //   echo "<br>";
+  // }
+
+  echo json_encode($fileArray);
 ?>

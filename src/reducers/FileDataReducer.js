@@ -5,7 +5,8 @@ import initialState from './initialState';
 export default function fileDataReducer(state = initialState.fileData, action) {
   const getInitialState = () => {
     return {
-      currentFile: ''
+      currentFile: '',
+      fileDirectories: ''
     };
   };
   let newState;
@@ -14,6 +15,11 @@ export default function fileDataReducer(state = initialState.fileData, action) {
     case ActionTypes.GET_SOURCE_CODE:
       newState = objectAssign({}, state);
       newState.currentFile = action.response;
+      return newState;
+
+    case ActionTypes.GET_FILE_DIRECTORIES:
+      newState = objectAssign({}, state);
+      newState.fileDirectories = action.response;
       return newState;
 
     default:

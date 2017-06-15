@@ -32,3 +32,19 @@ export function getSourceCode(url) {
       });
     });
 }
+
+export function getFileDirectories() {
+  return dispatch =>
+    new Promise((resolve, reject) => {
+      FileService.getFileDirectories(dispatch).then((response) => {
+        if (response) {
+          dispatch({type: types.GET_FILE_DIRECTORIES, response: response});
+        } else {
+          dispatch({type: types.GET_FILE_DIRECTORIES_ERROR});
+        }
+        resolve(response);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+}

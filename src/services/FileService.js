@@ -49,6 +49,28 @@ const FileService = {
 
     });
     return $.when(getSource);
+  },
+
+  getFileDirectories(dispatch) {
+    var Success = false;
+    var results = null;
+    var getFileDirs = $.ajax({
+      type: "GET",
+      method: "GET",
+      crossDomain: true,
+      url: 'http://localhost:8000/src/utils/renderFiles.php',
+      dataType: 'JSON',
+
+      success: function (obj, textstatus) {
+        results = obj;
+      },
+      error: function(obj) {
+        // create variable error
+        results = obj;
+      }
+
+    });
+    return $.when(getFileDirs);
   }
 }
 
