@@ -26,7 +26,7 @@ const Editor = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     //console.log(nextProps);
-    if (!this.state.editorValue && nextProps.fileData.currentFile !== this.state.editorValue) {
+    if (nextProps.fileData.currentFile !== this.state.editorValue) {
       this.setState({ editorValue: nextProps.fileData.currentFile.toString() });
     }
   },
@@ -104,7 +104,7 @@ const Editor = React.createClass({
     this.setState({
       fileName: value
     });
-    this.props.getSourceCode('urlHere');
+    this.props.getSourceCode('');
     this.props.getFileDirectories();
   },
 

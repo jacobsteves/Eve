@@ -32,12 +32,17 @@ const FileService = {
   getSourceCode(dispatch, url) {
     var Success = false;
     var results = null;
+    var curDirLen = 5;
+    var dirUrl = url ? "http://localhost:8000" + url.substring(curDirLen, url.length) : 'http://localhost:8000/src/utils/readSourceCode.php';
+    var tempUrl = url ? url : '../../src/routes.js';
+    console.log(dirUrl);
     var getSource = $.ajax({
-      type: "GET",
-      method: "GET",
+      type: "POST",
+      method: "POST",
       crossDomain: true,
       url: 'http://localhost:8000/src/utils/readSourceCode.php',
       dataType: 'text',
+      data: {url: tempUrl},
 
       success: function (obj, textstatus) {
         results = obj;
