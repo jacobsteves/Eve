@@ -9,7 +9,6 @@ body {
   line-height: 1.4em;
   color: #4d4d4d;
   min-width: 230px;
-  max-width: 550px;
   margin: 0 auto;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
@@ -25,6 +24,13 @@ h2 {
 	color: $vin-blue;
 }
 
+.editorWindow {
+  float: left;
+}
+
+.editorSideMenu {
+  float: left;
+}
 .sideBarFileLink {
   cursor: pointer;
   list-style: none;

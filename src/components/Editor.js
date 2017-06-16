@@ -130,25 +130,29 @@ const Editor = React.createClass({
           <div>
             <h2>Code!</h2>
             <h4>{this.state.fileName}</h4>
-            <div style={{display: 'inline-block'}}>
-              {this._renderLangaugePicker()}
-              {this._renderThemePicker()}
-              <form onSubmit={(e) => this._saveFile(e)}>
-                <input type='submit' value='Save'/>
-              </form>
+            <div className={'editorSideMenu'}>
+              {this._renderFiles()}
             </div>
-            <AceEditor
-              ref='aceEditor'
-              mode={this.state.mode}
-              theme={this.state.theme}
-              onChange={(value) => this._onEditorChange(value)}
-              splits={3}
-              orientation="below"
-              value={this.state.editorValue}
-              name={this.state.fileName}
-              editorProps={{$blockScrolling: true}}
-            />
-            {this._renderFiles()}
+            <div className={'editorWindow'}>
+              <div style={{display: 'inline-block'}}>
+                {this._renderLangaugePicker()}
+                {this._renderThemePicker()}
+                <form onSubmit={(e) => this._saveFile(e)}>
+                  <input type='submit' value='Save'/>
+                </form>
+              </div>
+              <AceEditor
+                ref='aceEditor'
+                mode={this.state.mode}
+                theme={this.state.theme}
+                onChange={(value) => this._onEditorChange(value)}
+                splits={3}
+                orientation="below"
+                value={this.state.editorValue}
+                name={this.state.fileName}
+                editorProps={{$blockScrolling: true}}
+              />
+            </div>
           </div>
         }
         {!this.state.fileName &&
