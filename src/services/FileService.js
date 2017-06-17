@@ -35,7 +35,6 @@ const FileService = {
     var curDirLen = 5;
     var dirUrl = url ? "http://localhost:8000" + url.substring(curDirLen, url.length) : 'http://localhost:8000/src/utils/readSourceCode.php';
     var tempUrl = url ? url : '../../src/routes.js';
-    console.log(dirUrl);
     var getSource = $.ajax({
       type: "POST",
       method: "POST",

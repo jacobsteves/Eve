@@ -27,7 +27,9 @@ const Editor = React.createClass({
       activeDirectory: [],
       isOpened: [],
       localLocationLen: 6,
-      fileName: null
+      fileName: null,
+      fileDirectory: null,
+      openedFiles: []
     };
   },
 
@@ -91,12 +93,25 @@ const Editor = React.createClass({
   _changeCurFile(directory) {
     const splitByPeriod = directory.split('.');
     let newMode = splitByPeriod[splitByPeriod.length - 1];
+
     const splitBySlash = directory.split('/');
     let newName = splitBySlash[splitBySlash.length - 1];
+
+    const { openedFiles } = this.state;
+    let openedFilesContainsNew = false;
+    for(var i = 0; i < openedFiles.length; i++) {
+        if (openedFiles[i].name == newName) {
+            openedFilesContainsNew = true;
+            break;
+        }
+    }
+    !openedFilesContainsNew ? openedFiles.push({'directory': directory, 'name': newName}) : null;
+
     this.setState({
       mode: languageHandler(newMode),
       fileDirectory: directory,
-      fileName: newName
+      fileName: newName,
+      openedFiles: openedFiles
     });
     this.props.getSourceCode(directory);
   },
@@ -163,15 +178,19 @@ const Editor = React.createClass({
   },
 
   _renderFileTabs() {
+    const { openedFiles, fileName } = this.state;
     return (
       <div>
         <nav>
     			<ul className={'editorTabs'}>
-    				<li><p>This</p></li>
-    				<li><p>That</p></li>
-    				<li id="selected"><p>The other</p></li>
-    				<li><p>Banana</p></li>
-    				<li><p>Kumquat</p></li>
+            {openedFiles && openedFiles.map((file, i) => {
+              return (
+                <li
+                  id={fileName === file.name ? 'selected' : ''}
+                  onClick={() => this._changeCurFile(file.directory)}>
+                  <p>{file.name}</p>
+                </li>);
+            })}
     			</ul>
     		</nav>
 

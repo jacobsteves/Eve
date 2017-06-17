@@ -31,6 +31,8 @@ nav .editorTabs {
 	text-align: center;
 	text-decoration: none;
 	transition: .2s;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .editorTabs li:hover {
