@@ -6,6 +6,7 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import {split as SplitEditor} from 'react-ace';
 import {languageHandler} from '../utils/languageHandler.js'
+import '../styles/EditorCanvas.css';
 import $ from 'jQuery';
 
 import 'brace/mode/html';
@@ -32,10 +33,10 @@ const Editor = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.fileData.currentFile !== this.state.editorValue) {
-      const { fileName, localLocationLen } = this.state;
+      const { fileDirectory, localLocationLen } = this.state;
       this.setState({
         editorValue: nextProps.fileData.currentFile.toString(),
-        activeDirectory: fileName.substring(localLocationLen, fileName.length).split('/')
+        activeDirectory: fileDirectory.substring(localLocationLen, fileDirectory.length).split('/')
       });
     }
   },
@@ -44,28 +45,11 @@ const Editor = React.createClass({
     saveFile: React.PropTypes.func.isRequired
   },
 
-  _changeCurrentLanguage(e) {
-    e.preventDefault();
-    this.setState({
-      mode: e.target.value
-    });
-  },
-
   _changeCurrentTheme(e) {
     e.preventDefault();
     this.setState({
       theme: e.target.value
     });
-  },
-
-  _renderLangaugePicker() {
-    return (
-      <select onChange={(e) => this._changeCurrentLanguage(e)}>
-        <option default value="html">HTML</option>
-        <option default value="java">Java</option>
-        <option default value="php">PHP</option>
-      </select>
-    );
   },
 
   _renderThemePicker() {
@@ -80,10 +64,10 @@ const Editor = React.createClass({
 
   _saveFile(e) {
     e.preventDefault();
-    const { editorValue, fileName } = this.state;
-    const fileContents = document.getElementById(fileName);
-    const argumentsList = [fileName, editorValue];
-    this.props.saveFile(fileName, editorValue);
+    const { editorValue, fileDirectory } = this.state;
+    const fileContents = document.getElementById(fileDirectory);
+    const argumentsList = [fileDirectory, editorValue];
+    this.props.saveFile(fileDirectory, editorValue);
   },
 
   _onEditorChange(value) {
@@ -105,11 +89,14 @@ const Editor = React.createClass({
   },
 
   _changeCurFile(directory) {
-    const splitFileByPeriod = directory.split('.');
-    let newMode = splitFileByPeriod[splitFileByPeriod.length - 1];
+    const splitByPeriod = directory.split('.');
+    let newMode = splitByPeriod[splitByPeriod.length - 1];
+    const splitBySlash = directory.split('/');
+    let newName = splitBySlash[splitBySlash.length - 1];
     this.setState({
       mode: languageHandler(newMode),
-      fileName: directory
+      fileDirectory: directory,
+      fileName: newName
     });
     this.props.getSourceCode(directory);
   },
@@ -118,7 +105,7 @@ const Editor = React.createClass({
     e.preventDefault();
     const value = ReactDOM.findDOMNode(this.refs.fileNameInput).value;
     this.setState({
-      fileName: value
+      fileDirectory: value
     });
     this.props.getSourceCode('');
     this.props.getFileDirectories();
@@ -175,41 +162,62 @@ const Editor = React.createClass({
     );
   },
 
+  _renderFileTabs() {
+    return (
+      <div>
+        <nav>
+    			<ul className={'editorTabs'}>
+    				<li><p>This</p></li>
+    				<li><p>That</p></li>
+    				<li id="selected"><p>The other</p></li>
+    				<li><p>Banana</p></li>
+    				<li><p>Kumquat</p></li>
+    			</ul>
+    		</nav>
+
+        <section className={"editorCanvas"}>
+          {this.state.fileName &&
+            <AceEditor
+              ref='aceEditor'
+              mode={this.state.mode}
+              theme={this.state.theme}
+              onChange={(value) => this._onEditorChange(value)}
+              splits={3}
+              orientation="below"
+              value={this.state.editorValue}
+              name={this.state.fileName}
+              editorProps={{$blockScrolling: true}}
+            />
+          }
+      	</section>
+      </div>
+    );
+  },
+
   render() {
     const fileDirectories = this.props.fileData.fileDirectories;
     return (
       <div>
-        <h1>React Slingshot</h1>
-        {this.state.fileName &&
+        {this.state.fileDirectory &&
           <div>
-            <h2>Code!</h2>
             <h4>{this.state.fileName}</h4>
             <div className={'editorSideMenu'}>
               {this._renderFiles(fileDirectories)}
             </div>
             <div className={'editorWindow'}>
               <div style={{display: 'inline-block'}}>
-                {this._renderLangaugePicker()}
                 {this._renderThemePicker()}
                 <form onSubmit={(e) => this._saveFile(e)}>
                   <input type='submit' value='Save'/>
                 </form>
               </div>
-              <AceEditor
-                ref='aceEditor'
-                mode={this.state.mode}
-                theme={this.state.theme}
-                onChange={(value) => this._onEditorChange(value)}
-                splits={3}
-                orientation="below"
-                value={this.state.editorValue}
-                name={this.state.fileName}
-                editorProps={{$blockScrolling: true}}
-              />
+              <div className={'editorTab'}>
+                {this._renderFileTabs()}
+              </div>
             </div>
           </div>
         }
-        {!this.state.fileName &&
+        {!this.state.fileDirectory &&
           <div>
             <h3>Please create a filename</h3>
             <form onSubmit={(e) => this._changeFileName(e)}>

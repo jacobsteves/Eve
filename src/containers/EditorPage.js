@@ -14,14 +14,14 @@ import {
 class EditorPage extends Component {
   getInitialState() {
     return {
-      fileName: ''
+      fileDirectory: ''
     };
   }
 
   _changeFileName(e) {
     e.preventDefault();
     this.setState({
-      fileName: e.target.value
+      fileDirectory: e.target.value
     });
   }
 
@@ -39,7 +39,7 @@ class EditorPage extends Component {
       return (
         <div>
           <h3>Please create a filename</h3>
-          <input type='text' onSubmit={(e) => this._changeFileName(e)} />
+          <input type='text' onSubmit={(e) => this._changeFileDirectory(e)} />
         </div>
       )
     }

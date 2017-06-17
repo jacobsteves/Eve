@@ -1,0 +1,70 @@
+*, #content :first-child, #content :last-child {
+	margin: 0;
+}
+
+nav .editorTabs {
+	list-style: none;
+	padding: 0 0 0 10px;
+	min-width: 460px;
+}
+
+.editorTabs li {
+	float: left;
+	position: relative;
+	height: 30px;
+	border-radius: 10px 30px 0 0;
+	margin-left: -10px;
+	text-shadow: 1px 1px 0 #bbb;
+	box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+	transition: .2s;
+}
+
+.editorTabs p {
+	display: block;
+	position: relative;
+	width: 90px;
+	height: 20px;
+	padding: 6px 10px 34px 0;
+	border-radius: 10px 30px 0 0;
+	background: #999;
+	color: #444;
+	text-align: center;
+	text-decoration: none;
+	transition: .2s;
+}
+
+.editorTabs li:hover {
+	z-index: 1;
+}
+
+.editorTabs li:hover p {
+	background: #ccc;
+	color: #000;
+}
+
+.editorTabs #selected {
+	z-index: 2;
+}
+
+.editorTabs #selected p {
+	z-index: 3;
+	background: #fff;
+	color: #000;
+	text-shadow: none;
+	font-weight: 500;
+}
+
+.editorCanvas {
+	position: relative;
+	z-index: 1;
+	clear: both;
+	min-width: 420px;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+	background: #fff;
+}
+
+.editorCanvas {
+	margin: 20px 0;
+}
