@@ -5,11 +5,14 @@ import { Link } from 'react-router';
 import brace from 'brace';
 import AceEditor from 'react-ace';
 import {split as SplitEditor} from 'react-ace';
+import {languageHandler} from '../utils/languageHandler.js'
 import $ from 'jQuery';
 
 import 'brace/mode/html';
+import 'brace/mode/javascript';
 import 'brace/mode/java';
 import 'brace/mode/php';
+import 'brace/mode/json'
 import 'brace/theme/kr_theme';
 import 'brace/theme/github';
 import 'brace/theme/monokai';
@@ -102,7 +105,10 @@ const Editor = React.createClass({
   },
 
   _changeCurFile(directory) {
+    const splitFileByPeriod = directory.split('.');
+    let newMode = splitFileByPeriod[splitFileByPeriod.length - 1];
     this.setState({
+      mode: languageHandler(newMode),
       fileName: directory
     });
     this.props.getSourceCode(directory);
