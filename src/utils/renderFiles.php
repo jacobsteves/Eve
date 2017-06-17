@@ -8,25 +8,24 @@
   header('Access-Control-Max-Age: 1000');
   header('HTTP/1.1 200 OK');
 
-  $fileArray = array();
+  function SearchDirectory($dir, $root) {
+    $fileArray = array();
 
-  function SearchDirectory($dir) {
-    global $fileArray;
     foreach (glob("$dir/*") as $fileName) {
-        array_push($fileArray, $fileName);
-        if (is_dir($fileName) && strpos($fileName, 'node_modules') === false) {
-          SearchDirectory($fileName);
-        }
+      if (is_dir($fileName) && strpos($fileName, 'node_modules') === false) {
+        $children = SearchDirectory($fileName, false);
+      }
+        $dataNodeArray = array(
+          'name' => end(explode("/", $fileName)),
+          'isDir' => is_dir($fileName),
+          'location' => $fileName,
+          'children' => $children
+        );
+
+        $fileArray[] = $dataNodeArray;
     }
+    return $fileArray;
   }
 
-  SearchDirectory('../..');
-
-  // $len = count($fileArray);
-  // for($i = 0; $i < $len; $i++) {
-  //   echo $fileArray[$i];
-  //   echo "<br>";
-  // }
-
-  echo json_encode($fileArray);
+  echo json_encode(SearchDirectory('../..', true));
 ?>

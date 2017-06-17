@@ -20,14 +20,20 @@ const Editor = React.createClass({
       mode: 'html',
       theme: 'kr_theme',
       editorValue: this.props.fileData.currentFile.toString(),
+      activeDirectory: [],
+      isOpened: [],
+      localLocationLen: 6,
       fileName: null
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    //console.log(nextProps);
     if (nextProps.fileData.currentFile !== this.state.editorValue) {
-      this.setState({ editorValue: nextProps.fileData.currentFile.toString() });
+      const { fileName, localLocationLen } = this.state;
+      this.setState({
+        editorValue: nextProps.fileData.currentFile.toString(),
+        activeDirectory: fileName.substring(localLocationLen, fileName.length).split('/')
+      });
     }
   },
 
@@ -60,8 +66,6 @@ const Editor = React.createClass({
   },
 
   _renderThemePicker() {
-    //console.log(this.props.fileData.currentFile.toString());
-    //console.log(this.state.editorValue);
     return (
       <select onChange={(e) => this._changeCurrentTheme(e)}>
         <option default value="github">github</option>
@@ -76,15 +80,25 @@ const Editor = React.createClass({
     const { editorValue, fileName } = this.state;
     const fileContents = document.getElementById(fileName);
     const argumentsList = [fileName, editorValue];
-    //console.log('editorval: ', editorValue);
     this.props.saveFile(fileName, editorValue);
   },
 
   _onEditorChange(value) {
-    console.log('newval: ', value);
     this.setState({
       editorValue: value
     })
+  },
+
+  _changeCurDirectory(directory, index) {
+    const { isOpened, localLocationLen } = this.state;
+    this.setState({
+      activeDirectory: directory.location.substring(localLocationLen, directory.location.length).split('/')
+    })
+  },
+
+  _handleSideBarClick(directory, index) {
+    const isDir = directory.isDir;
+    isDir ? this._changeCurDirectory(directory, index) : this._changeCurFile(directory.location);
   },
 
   _changeCurFile(directory) {
@@ -104,17 +118,48 @@ const Editor = React.createClass({
     this.props.getFileDirectories();
   },
 
-  _renderFiles() {
-    const fileDirectories = this.props.fileData.fileDirectories;
+  _renderFileChildren(fileDirectories, activeDirectory) {
+    return (
+      <ul>
+        {fileDirectories && Array.from(fileDirectories).map((directory, index) => {
+          return (
+            <li
+              className={'sideBarFileLink'}
+              key={index}
+              onClick={() => this._handleSideBarClick(directory, index)}>
+                {directory.name.toString()}
+                <ul className={directory.isDir ? 'isDirectory' : 'hide'}>
+                  {activeDirectory[0] === directory.name &&
+                    directory.isDir &&
+                    activeDirectory.shift() &&
+                    this._renderFileChildren(directory.children, activeDirectory)}
+                </ul>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  },
+
+  _renderFiles(fileDirectories) {
+    let { activeDirectory } = this.state;
     return (
       <ul>
         {fileDirectories && fileDirectories.map((directory, index) => {
           return (
             <li
-              className={'sideBarFileLink'}
-              key={index}
-              onClick={() => this._changeCurFile(directory)}>
-                {directory.toString()}
+              key={index}>
+                <div
+                  className={'sideBarFileLink'}
+                  onClick={() => this._handleSideBarClick(directory, index)}>
+                  {directory.name.toString()}
+                </div>
+                <ul className={directory.isDir ? 'isDirectory' : 'hide'}>
+                  {activeDirectory[0] === directory.name &&
+                    directory.isDir &&
+                    activeDirectory.shift() &&
+                    this._renderFileChildren(directory.children, activeDirectory)}
+                </ul>
             </li>
           );
         })}
@@ -123,6 +168,7 @@ const Editor = React.createClass({
   },
 
   render() {
+    const fileDirectories = this.props.fileData.fileDirectories;
     return (
       <div>
         <h1>React Slingshot</h1>
@@ -131,7 +177,7 @@ const Editor = React.createClass({
             <h2>Code!</h2>
             <h4>{this.state.fileName}</h4>
             <div className={'editorSideMenu'}>
-              {this._renderFiles()}
+              {this._renderFiles(fileDirectories)}
             </div>
             <div className={'editorWindow'}>
               <div style={{display: 'inline-block'}}>
