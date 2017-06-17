@@ -1,0 +1,446 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+$dull-black: #4A4A4A !default;
+$black-base: #000000 !default;
+$white-base: #ffffff !default;
+
+
+$peter-river: #3498db;
+$turquise: #1abc9c;
+$green-sea: #16a085;
+$wet-asphalt: #34495e;
+$concrete: #95a5a6;
+$clouds: #ecf0f1;
+$silver: #bdc3c7;
+$midnight-blue: #2c3e50;
+
+$roboto: 'Roboto', sans-serif;
+
+/** Animation stuffs */
+$default-animation-time: 0.2s !default;
+$default-transition-time: 0.2s !default;
+$default-shake-distance: 8px !default;
+$default-short-slide-distance: 40px !default;
+$default-cubic-in: cubic-bezier(0.5, 1.8, 0.9, 0.8);
+
+/* From compass */
+@function compact($var-1,        $var-2: false,
+                  $var-3: false, $var-4: false,
+                  $var-5: false, $var-6: false,
+                  $var-7: false, $var-8: false,
+                  $var-9: false, $var-10: false) {
+  $full: $var-1;
+  $vars: $var-2, $var-3, $var-4, $var-5,
+         $var-6, $var-7, $var-8, $var-9, $var-10;
+
+  @each $var in $vars {
+    @if $var {
+      $full: $full, $var;
+    }
+  }
+  @return $full;
+}
+
+
+@function set-arglist-default($arglist, $default) {
+  $default-index: index($arglist, default);
+  @if $default-index {
+    $arglist: set-nth($arglist, $default-index, $default)
+  }
+  @return if(length($arglist) > 0, $arglist, $default);
+}
+
+
+/* End copy/paste from compass */
+
+
+
+$default-box-shadow-h-offset: 0 !default;
+$default-box-shadow-v-offset: 0 !default;
+$default-box-shadow-blur: 4px !default;
+$default-box-shadow-spread: null !default;
+$default-box-shadow-color: rgba(0, 0, 0, .15) !default;
+$default-box-shadow-inset: null !default;
+
+
+/** Box shadows */
+@function default-box-shadow() {
+  @return compact(if($default-box-shadow-inset, inset, null) $default-box-shadow-h-offset $default-box-shadow-v-offset $default-box-shadow-blur $default-box-shadow-color)
+}
+
+@mixin box-shadow($shadow...) {
+  $shadow: set-arglist-default($shadow, default-box-shadow());
+  -webkit-box-shadow: $shadow;
+     -moz-box-shadow: $shadow;
+          box-shadow: $shadow;
+}
+
+@mixin menu-box-shadow() {
+  $shadow: default-box-shadow(), 0 2px 4px rgba(0, 0, 0, .29);
+  -webkit-box-shadow: $shadow;
+     -moz-box-shadow: $shadow;
+          box-shadow: $shadow;
+}
+
+
+/* ========================================================= */
+/* Dropdown menu Source */
+/* ========================================================= */
+$dd-menu-sm-width: 150px !default;
+$dd-menu-md-width: 300px !default;
+$dd-menu-lg-width: 450px !default;
+$dd-menu-z-index: 7;
+$dd-font: $roboto;
+$dd-text-color: $black-base;
+$dd-list-color: $white-base;
+$dd-hover-color: $silver;
+$dd-hover-text-color: $black-base;
+
+$dd-inverse-text-color: $white-base;
+$dd-inverse-list-color: $midnight-blue;
+$dd-inverse-hover-color: $wet-asphalt;
+$dd-inverse-hover-text-color: $white-base;
+
+.dd-menu {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+
+  &.dd-menu-right {
+    text-align: right;
+
+    .dd-menu-items {
+      right: 0;
+
+      button, a {
+        text-align: right;
+      }
+    }
+  }
+
+  &.dd-menu-left {
+    text-align: left;
+
+    .dd-menu-items {
+      left: 0;
+      button, a {
+        text-align: left;
+      }
+    }
+  }
+
+  &.dd-menu-center {
+    .dd-menu-items {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &.dd-menu-sm {
+    .dd-menu-items {
+      width: $dd-menu-sm-width;
+    }
+  }
+
+  &.dd-menu-md {
+    .dd-menu-items {
+      width: $dd-menu-md-width;
+    }
+  }
+
+  &.dd-menu-lg {
+    .dd-menu-items {
+      width: $dd-menu-lg-width;
+    }
+  }
+
+  &.dd-menu-inverse {
+    > .dd-menu-items {
+      > ol,
+      > ul {
+        color: $dd-inverse-text-color;
+        background-color: $dd-inverse-list-color;
+
+        > li {
+          &:hover,
+          > button:focus,
+          > a:focus {
+            color: $dd-inverse-hover-text-color;
+            background-color: $dd-inverse-hover-color;
+          }
+        }
+      }
+    }
+
+    li.separator {
+      background-color: $wet-asphalt;
+    }
+  }
+
+  .dd-menu-items {
+    position: absolute;
+    z-index: $dd-menu-z-index;
+    margin-top: 0.5em;
+
+    > ul,
+    > ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background-color: $dd-list-color;
+      color: $dd-text-color;
+      @include menu-box-shadow();
+
+      > li {
+        &:hover,
+        > button:focus,
+        > a:focus {
+          color: $dd-hover-text-color;
+          background-color: $dd-hover-color;
+          outline: none;
+        }
+
+        > a {
+          text-decoration: none;
+          color: inherit;
+        }
+
+        > button,
+        > a {
+          font-size: 1em;
+          white-space: pre;
+          padding: 1em 1.5em;
+          font-family: $dd-font;
+          width: 100%;
+          display: block;
+        }
+
+        > button {
+          @extend .clear-btn;
+        }
+
+      }
+    }
+  }
+
+  li.separator {
+    content: '';
+    height: 1px;
+    background-color: rgba(0, 0, 0, .15);
+    margin-top: .5em;
+    margin-bottom: .5em;
+  }
+}
+
+/* ========================================================= */
+/* Dropdown menu Animations */
+/* ========================================================= */
+.grow-from-left-enter {
+  transform: scale(0);
+  transform-origin: 0 0;
+  transition: transform $default-transition-time $default-cubic-in;
+
+  &.grow-from-left-enter-active {
+    transform: scale(1);
+  }
+}
+
+.grow-from-left-leave {
+  transform: scale(1);
+  transform-origin: 0 0;
+  transition: transform $default-transition-time ease-out;
+
+  &.grow-from-left-leave-active {
+    transform: scale(0);
+  }
+}
+
+.grow-from-right-enter {
+  transform: scale(0);
+  transform-origin: 100% 0;
+  transition: transform $default-transition-time $default-cubic-in;
+
+  &.grow-from-right-enter-active {
+    transform: scale(1);
+  }
+}
+
+.grow-from-right-leave {
+  transform: scale(1);
+  transform-origin: 100% 0;
+  transition: transform $default-transition-time ease-out;
+
+  &.grow-from-right-leave-active {
+    transform: scale(0);
+  }
+}
+
+.grow-from-center-enter {
+  transform: scale(0);
+  transform-origin: 50% 0;
+
+  &.grow-from-center-enter-active {
+
+  transition: transform $default-transition-time $default-cubic-in;
+    transform: scale(1);
+  }
+}
+
+.grow-from-center-leave {
+  transform: scale(1);
+  transform-origin: 50% 0;
+
+  &.grow-from-center-leave-active {
+  transition: transform $default-transition-time $default-cubic-in;
+    transform: scale(0);
+  }
+}
+
+
+
+
+/* ========================================================= */
+/* Pen Stylings */
+/* ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  color: $white-base;
+  font-family: 'Roboto', sans-serif;
+  background-color: $peter-river;
+  padding: 1.5em;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+#main {
+  flex-grow: 1;
+}
+
+@media (min-width: 768px) {
+  main {
+    width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  main {
+    width: 940px;
+  }
+}
+
+@media (min-width: 1200px) {
+  main {
+    width: 1140px;
+  }
+}
+
+main {
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  > .dd-menu {
+    flex-basis: 330px;
+    margin: 2em 1.5em;
+  }
+}
+
+footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 2em;
+
+  > a {
+    color: $dull-black;
+  }
+}
+
+.clear-btn {
+  border: none;
+  background-color: transparent;
+}
+
+h1 {
+  margin: 0;
+}
+
+.tab {
+  > button {
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    color: $white-base;
+    padding: 0.8em 1.5em;
+    background-color: $wet-asphalt;
+    border: 0;
+    border-bottom: 2px solid $midnight-blue;
+    box-shadow: inset 0 -2px $midnight-blue;
+
+    &:focus {
+      box-shadow: inset 0 -2px $midnight-blue, inset 0 0 3px $wet-asphalt;
+    }
+  }
+
+  &:active,
+  &.active {
+    > button {
+      top: 1px;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.titleNav {
+  width:20%;
+  max-width:110px;
+}
+.eveMenuDropDown {
+  > button {
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    color: $white-base;
+    padding: 0.8em 1.5em;
+    background-color: $midnight-blue;
+    border: 0;
+    border-bottom: 2px solid $dull-black;
+    box-shadow: inset 0 -2px $dull-black;
+
+    &:focus {
+      box-shadow: inset 0 -2px $dull-black, inset 0 0 3px $wet-asphalt;
+    }
+  }
+}
+
+.navBarFiller {
+  background-color: $wet-asphalt;
+  margin-bottom: 2em;
+}
+.eveMenuText {
+  font-weight: bold;
+}

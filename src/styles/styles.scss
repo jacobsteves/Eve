@@ -40,6 +40,20 @@ h2 {
   color: black;
 }
 
+.navBar {
+  display: inline-block;
+}
+
+.navBar div {
+  float: left;
+  margin-left: 2em;
+  cursor: pointer;
+}
+
+.eveMenuDropDown {
+  font-weight: bold;
+}
+
 .hide {
   display: none;
 }

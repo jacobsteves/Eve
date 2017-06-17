@@ -130,10 +130,12 @@ const Editor = React.createClass({
         {fileDirectories && Array.from(fileDirectories).map((directory, index) => {
           return (
             <li
-              className={'sideBarFileLink'}
-              key={index}
-              onClick={() => this._handleSideBarClick(directory, index)}>
-                {directory.name.toString()}
+              key={index}>
+                <div
+                  className={'sideBarFileLink'}
+                  onClick={() => this._handleSideBarClick(directory, index)}>
+                  {directory.name.toString()}
+                </div>
                 <ul className={directory.isDir ? 'isDirectory' : 'hide'}>
                   {activeDirectory[0] === directory.name &&
                     directory.isDir &&
