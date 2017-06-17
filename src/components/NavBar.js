@@ -8,19 +8,60 @@ import '../styles/NavBar.css';
 const _navBarProperties = [{
   direction: 'center',
   text: 'Eve',
-  className: 'eveMenuDropDown'
+  className: 'eveMenuDropDown',
+  children: [
+    {
+      name: 'About Eve'
+    },
+    {
+      name: 'View License'
+    },
+    {
+      name: 'Version'
+    },
+    {
+      name: 'Preferences'
+    }
+  ]
 }, {
   direction: 'left',
-  text: 'File'
+  text: 'File',
+  children: [
+    {
+      name: 'New File'
+    },
+    {
+      name: 'Open'
+    },
+    {
+      name: 'Save File'
+    },
+    {
+      name: 'Save File As'
+    }
+  ]
 }, {
   direction: 'left',
-  text: 'Edit'
+  text: 'Edit',
+  children: null
 }, {
   direction: 'left',
-  text: 'Settings'
+  text: 'Settings',
+  children: null
 }, {
   direction: 'left',
-  text: 'Help'
+  text: 'Help',
+  children: [
+    {
+      name: 'View Documentation'
+    },
+    {
+      name: 'GitHub'
+    },
+    {
+      name: 'Frequently Asked Questions'
+    }
+  ]
 }];
 
 const _initialState = _navBarProperties.map(function() { return false; });
@@ -52,8 +93,11 @@ const NavBar = React.createClass({
     );
   },
 
-  click(id) {
-    alert(id);
+  click(id, name) {
+    if (name === 'GitHub') { window.open("http://www.github.com/jacobsteves/eve"); }
+    else if (name === 'Frequently Asked Questions') { window.open("http://www.github.com/jacobsteves/eve"); }
+    else if (name === 'View Documentation') { window.open("http://www.github.com/jacobsteves/eve"); }
+    else { alert(name); }
     this.close(id);
   },
 
@@ -73,6 +117,18 @@ const NavBar = React.createClass({
   //   );
   // }
 
+  _renderChildren(children) {
+    return children.map((child, i) => {
+      // <li className="separator" role="separator" />
+      // component="a"
+      return (
+        <DropdownMenuItem action={this.click.bind(null, i, child.name)} childrenProps={{href: "#"}}>
+          {child.name}
+        </DropdownMenuItem>
+      );
+    });
+  },
+
   render() {
       return (
           <div className={'navBarFiller'}>
@@ -86,11 +142,7 @@ const NavBar = React.createClass({
                     key={'item' + i}
                     className={'titleNav ' + item.className}>
                   <ul>
-                    <DropdownMenuItem component="a" action={this.click.bind(null, i)} childrenProps={{href: "#"}}>Example 1</DropdownMenuItem>
-                    <DropdownMenuItem action={this.click.bind(this, i)}>Example 2</DropdownMenuItem>
-                    <DropdownMenuItem action={this.click.bind(this, i)}>Lorem ipsum pretend</DropdownMenuItem>
-                    <li className="separator" role="separator" />
-                    <DropdownMenuItem action={this.click.bind(this, i)}>Example 3</DropdownMenuItem>
+                    {item.children && this._renderChildren(item.children)}
                   </ul>
                 </DropdownMenu>
               );
