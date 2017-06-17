@@ -126,6 +126,20 @@ const Editor = React.createClass({
     this.props.getFileDirectories();
   },
 
+  _removeTab(file) {
+    let { openedFiles } = this.state;
+    for(var i = 0; i < openedFiles.length; i++) {
+      if(openedFiles[i].directory == file.directory) {
+          console.log('yeet');
+          openedFiles.splice(i, 1);
+          break;
+        }
+    }
+    this.setState({
+      openedFiles: openedFiles
+    })
+  },
+
   _renderFileChildren(fileDirectories, activeDirectory) {
     return (
       <ul>
@@ -188,7 +202,14 @@ const Editor = React.createClass({
                 <li
                   id={fileName === file.name ? 'selected' : ''}
                   onClick={() => this._changeCurFile(file.directory)}>
-                  <p>{file.name}</p>
+                  <div>
+                    <p>{file.name}</p>
+                    <img
+                      onClick={() => this._removeTab(file)}
+                      className={'closeButton'}
+                      src="https://cdn0.iconfinder.com/data/icons/basic-ui-elements-plain/385/010_x-512.png"
+                      height="10px" />
+                  </div>
                 </li>);
             })}
     			</ul>

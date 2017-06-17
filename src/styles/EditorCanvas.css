@@ -19,10 +19,11 @@ nav .editorTabs {
 	transition: .2s;
 }
 
-.editorTabs p {
-	display: block;
+.editorTabs div {
+	display: inline-block;
 	position: relative;
-	width: 90px;
+	float:left;
+	width: 130px;
 	height: 20px;
 	padding: 6px 10px 34px 0;
 	border-radius: 10px 30px 0 0;
@@ -31,24 +32,44 @@ nav .editorTabs {
 	text-align: center;
 	text-decoration: none;
 	transition: .2s;
+}
+
+.editorTabs p {
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.editorTabs li .closeButton {
+	display: none;
+	float: right;
 }
 
 .editorTabs li:hover {
 	z-index: 1;
 }
 
-.editorTabs li:hover p {
+.editorTabs li:hover div {
 	background: #ccc;
 	color: #000;
+}
+
+.editorTabs #selected:hover p {
+	float: left;
+	width: 100px;
+}
+
+.editorTabs #selected:hover .closeButton {
+	margin-top: 7px;
+	display: inline-block;
+	float: right;
+	left: 0;
 }
 
 .editorTabs #selected {
 	z-index: 2;
 }
 
-.editorTabs #selected p {
+.editorTabs #selected div {
 	z-index: 3;
 	background: #fff;
 	color: #000;
