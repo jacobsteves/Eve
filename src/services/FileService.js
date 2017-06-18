@@ -24,6 +24,7 @@ const FileService = {
       error: function(obj) {
         // create variable error
         console.log('Error saving file.');
+        return obj;
       }
 
     });

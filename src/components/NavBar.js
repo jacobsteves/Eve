@@ -98,6 +98,8 @@ const NavBar = React.createClass({
     if (name === 'GitHub') { window.open("http://www.github.com/jacobsteves/eve"); }
     else if (name === 'Frequently Asked Questions') { window.open("http://www.github.com/jacobsteves/eve"); }
     else if (name === 'View Documentation') { window.open("http://www.github.com/jacobsteves/eve"); }
+    else if (name === 'Preferences') { this.props.toggleEditMode(true) }
+    else if (name === 'Save File') { this.props.toggleMustSave(true) }
     else { alert(name); }
     this.close(id);
   },

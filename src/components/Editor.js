@@ -31,7 +31,9 @@ const Editor = React.createClass({
       localLocationLen: 6,
       fileName: null,
       fileDirectory: null,
-      openedFiles: []
+      openedFiles: [],
+      editSettings: false,
+      mustSave: false
     };
   },
 
@@ -43,6 +45,16 @@ const Editor = React.createClass({
         activeDirectory: fileDirectory.substring(localLocationLen, fileDirectory.length).split('/')
       });
     }
+    if (nextProps.fileData.editSettings !== this.state.editSettings) {
+      this.setState({
+        editSettings: nextProps.fileData.editSettings
+      });
+    }
+    if (nextProps.fileData.mustSave !== this.state.mustSave) {
+      this.setState({
+        mustSave: nextProps.fileData.mustSave
+      }, this._saveFile());
+    }
   },
 
   _changeCurrentTheme(e) {
@@ -53,17 +65,18 @@ const Editor = React.createClass({
   },
 
   _renderThemePicker() {
+    const { theme } = this.state;
     return (
       <select onChange={(e) => this._changeCurrentTheme(e)}>
-        <option default value="github">github</option>
-        <option default value="kr_theme">krTheme</option>
-        <option default value="monokai">Monokai</option>
+        <option selected={theme === 'github'} value="github">github</option>
+        <option selected={theme === 'kr_theme'} value="kr_theme">krTheme</option>
+        <option selected={theme === 'monokai'} value="monokai">Monokai</option>
       </select>
     );
   },
 
   _saveFile(e) {
-    e.preventDefault();
+    e ? e.preventDefault() : null;
     const { editorValue, fileDirectory } = this.state;
     const fileContents = document.getElementById(fileDirectory);
     const argumentsList = [fileDirectory, editorValue];
@@ -240,26 +253,19 @@ const Editor = React.createClass({
     const fileDirectories = this.props.fileData.fileDirectories;
     return (
       <div>
-        {this.state.fileDirectory &&
+        {!this.state.editSettings && this.state.fileDirectory &&
           <div>
-            <h4>{this.state.fileName}</h4>
             <div className={'editorSideMenu'}>
               {this._renderFiles(fileDirectories)}
             </div>
             <div className={'editorWindow'}>
-              <div style={{display: 'inline-block'}}>
-                {this._renderThemePicker()}
-                <form onSubmit={(e) => this._saveFile(e)}>
-                  <input type='submit' value='Save'/>
-                </form>
-              </div>
               <div className={'editorTab'}>
                 {this._renderFileTabs()}
               </div>
             </div>
           </div>
         }
-        {!this.state.fileDirectory &&
+        {!this.state.editSettings && !this.state.fileDirectory &&
           <div>
             <h3>Please create a filename</h3>
             <form onSubmit={(e) => this._changeFileName(e)}>
@@ -268,10 +274,23 @@ const Editor = React.createClass({
             </form>
           </div>
         }
+        {this.state.editSettings &&
+          <div>
+            <div style={{display: 'inline-block'}}>
+              {this._renderThemePicker()}
+              <button className={'btn btn-danger'} onClick={() => this.props.toggleEditMode(false)}>Return</button>
+              <button className={'btn btn-danger'} onClick={(e) => this.props._saveFile(e)}>Save</button>
+            </div>
+          </div>
+        }
       </div>
     );
   }
 });
+
+// <form onSubmit={(e) => this._saveFile(e)}>
+//   <input type='submit' value='Save'/>
+// </form>
 
 Editor.propTypes = {
   saveFile: PropTypes.func.isRequired

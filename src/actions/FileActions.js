@@ -2,6 +2,8 @@ import * as types from '../constants/actionTypes';
 import FileService from '../services/FileService';
 
 export function saveFile(name, contents) {
+  console.log(name);
+  console.log(contents);
   return dispatch =>
     new Promise((resolve, reject) => {
       FileService.saveFile(dispatch, name, contents).then((response) => {
@@ -47,4 +49,12 @@ export function getFileDirectories() {
         reject(error);
       });
     });
+}
+
+export function toggleEditMode(response) {
+  return { response, type: types.TOGGLE_EDIT_MODE };
+}
+
+export function toggleMustSave(response) {
+  return { response, type: types.TOGGLE_MUST_SAVE };
 }

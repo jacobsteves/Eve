@@ -8,7 +8,9 @@ import Editor from '../components/Editor';
 import {
   saveFile,
   getSourceCode,
-  getFileDirectories
+  getFileDirectories,
+  toggleEditMode,
+  toggleMustSave
 } from '../actions/FileActions';
 
 class EditorPage extends Component {
@@ -34,6 +36,7 @@ class EditorPage extends Component {
           getSourceCode={this.props.actions.getSourceCode}
           getFileDirectories={this.props.actions.getFileDirectories}
           fileData={this.props.fileData}
+          toggleEditMode={this.props.actions.toggleEditMode}
         />
       );
     } else {
@@ -58,7 +61,9 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       saveFile,
       getSourceCode,
-      getFileDirectories
+      getFileDirectories,
+      toggleEditMode,
+      toggleMustSave
     }, dispatch)
   };
 }
