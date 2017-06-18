@@ -11,21 +11,15 @@ import '../styles/EditorCanvas.css';
 import '../../assets/font-awesome/css/font-awesome.min.css';
 import $ from 'jQuery';
 
-import 'brace/mode/html';
-import 'brace/mode/javascript';
-import 'brace/mode/java';
-import 'brace/mode/php';
-import 'brace/mode/json';
-import 'brace/mode/markdown';
-import 'brace/theme/kr_theme';
-import 'brace/theme/github';
-import 'brace/theme/monokai';
+import '../utils/aceImporter';
+import {aceModes} from '../constants/aceModes';
+import {aceThemes} from '../constants/aceThemes';
 
 const Editor = React.createClass({
   getInitialState() {
     return {
       mode: 'html',
-      theme: 'kr_theme',
+      theme: 'chaos',
       editorValue: this.props.fileData.currentFile.toString(),
       activeDirectory: [],
       isOpened: [],
@@ -71,9 +65,9 @@ const Editor = React.createClass({
       <div className={'selectStyle'}>
         <p>Editor Theme</p>
         <select defaultValue={theme} onChange={(e) => this._changeCurrentTheme(e)}>
-          <option value="github">github</option>
-          <option value="kr_theme">krTheme</option>
-          <option value="monokai">Monokai</option>
+          {aceThemes.map((theme, i) => {
+            return <option key={i} value={theme}>{theme}</option>;
+          })}
         </select>
       </div>
     );
@@ -145,7 +139,6 @@ const Editor = React.createClass({
     let { openedFiles } = this.state;
     for(var i = 0; i < openedFiles.length; i++) {
       if(openedFiles[i].directory == file.directory) {
-          console.log('yeet');
           openedFiles.splice(i, 1);
           break;
         }
