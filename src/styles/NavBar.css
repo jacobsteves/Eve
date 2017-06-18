@@ -438,7 +438,7 @@ h1 {
 
 .navBarFiller {
   background-color: $wet-asphalt;
-  margin-bottom: 2em;
+  /*margin-bottom: 2em;*/
 }
 .eveMenuText {
   font-weight: bold;
