@@ -12,8 +12,9 @@ import {
 } from '../actions/FileActions';
 
 class EditorPage extends Component {
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props);
+    this.state = {
       fileDirectory: ''
     };
   }

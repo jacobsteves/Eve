@@ -24,15 +24,47 @@ h2 {
 	color: $vin-blue;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.fileDirectory {
+  padding-left: 1.3em;
+}
+
+.fileDirectory:before {
+  content: "\f07b";
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
+}
+
+.fileList {
+  list-style: none;
+  padding-left: 1.3em;
+}
+
+.fileList:before {
+  content: "\f0f6";
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
+}
+
 .editorWindow {
   float: left;
 }
 
 .editorSideMenu {
   float: left;
+  margin-left: 1em;
 }
 .sideBarFileLink {
   cursor: pointer;
+  display: inline;
   list-style: none;
 }
 

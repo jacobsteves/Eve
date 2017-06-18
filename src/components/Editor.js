@@ -8,6 +8,7 @@ import {split as SplitEditor} from 'react-ace';
 import {languageHandler} from '../utils/languageHandler.js'
 import PropTypes from 'prop-types';
 import '../styles/EditorCanvas.css';
+import '../../assets/font-awesome/css/font-awesome.min.css';
 import $ from 'jQuery';
 
 import 'brace/mode/html';
@@ -143,6 +144,7 @@ const Editor = React.createClass({
         {fileDirectories && Array.from(fileDirectories).map((directory, index) => {
           return (
             <li
+              className={directory.isDir ? 'fileDirectory' : 'fileList'}
               key={index}>
                 <div
                   className={'sideBarFileLink'}
@@ -169,6 +171,7 @@ const Editor = React.createClass({
         {fileDirectories && fileDirectories.map((directory, index) => {
           return (
             <li
+              className={directory.isDir ? 'fileDirectory' : 'fileList'}
               key={index}>
                 <div
                   className={'sideBarFileLink'}

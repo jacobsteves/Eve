@@ -102,22 +102,6 @@ const NavBar = React.createClass({
     this.close(id);
   },
 
-  // render() {
-  //   return (
-  //     <div className="navBar">
-  //       <div
-  //         onClick={() => console.log('Eve')}
-  //         className={'eveMenuDropDown'}>
-  //         Eve
-  //       </div>
-  //       <div onClick={() => console.log('File')}>File</div>
-  //       <div onClick={() => console.log('Edit')}>Edit</div>
-  //       <div onClick={() => console.log('Settings')}>Settings</div>
-  //       <div onClick={() => console.log('Help')}>Help</div>
-  //     </div>
-  //   );
-  // }
-
   _renderChildren(children) {
     return children.map((child, i) => {
       // <li className="separator" role="separator" />
