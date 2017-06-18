@@ -6,6 +6,7 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import {split as SplitEditor} from 'react-ace';
 import {languageHandler} from '../utils/languageHandler.js'
+import PropTypes from 'prop-types';
 import '../styles/EditorCanvas.css';
 import $ from 'jQuery';
 
@@ -41,10 +42,6 @@ const Editor = React.createClass({
         activeDirectory: fileDirectory.substring(localLocationLen, fileDirectory.length).split('/')
       });
     }
-  },
-
-  propTypes: {
-    saveFile: React.PropTypes.func.isRequired
   },
 
   _changeCurrentTheme(e) {
@@ -200,6 +197,7 @@ const Editor = React.createClass({
             {openedFiles && openedFiles.map((file, i) => {
               return (
                 <li
+                  key={i}
                   id={fileName === file.name ? 'selected' : ''}
                   onClick={() => this._changeCurFile(file.directory)}>
                   <div>
@@ -218,6 +216,7 @@ const Editor = React.createClass({
         <section className={"editorCanvas"}>
           {this.state.fileName &&
             <AceEditor
+              width={100 + '%'}
               ref='aceEditor'
               mode={this.state.mode}
               theme={this.state.theme}
@@ -271,4 +270,7 @@ const Editor = React.createClass({
   }
 });
 
+Editor.propTypes = {
+  saveFile: PropTypes.func.isRequired
+}
 export default Editor;

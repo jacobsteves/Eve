@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import { Link } from 'react-router';
-import { CSSTransitionGroup } from 'react-transition-group'
+import { CSSTransitionGroup } from 'react-transition-group';
+import PropTypes from 'prop-types';
 import '../styles/NavBar.css';
 
 const _navBarProperties = [{
@@ -122,7 +123,7 @@ const NavBar = React.createClass({
       // <li className="separator" role="separator" />
       // component="a"
       return (
-        <DropdownMenuItem action={this.click.bind(null, i, child.name)} childrenProps={{href: "#"}}>
+        <DropdownMenuItem key={i} action={this.click.bind(null, i, child.name)} childrenProps={{href: "#"}}>
           {child.name}
         </DropdownMenuItem>
       );
@@ -153,14 +154,6 @@ const NavBar = React.createClass({
 });
 
 const DropdownMenu = React.createClass({
-  propTypes: {
-    isOpen: React.PropTypes.bool.isRequired,
-    forceCloseFunction: React.PropTypes.func.isRequired,
-    toggle: React.PropTypes.node.isRequired,
-    direction: React.PropTypes.oneOf(['center', 'right', 'left']),
-    className: React.PropTypes.string,
-    component: React.PropTypes.oneOf(['div', 'span', 'li'])
-  },
 
   getDefaultProps() {
     return {
@@ -209,8 +202,15 @@ const DropdownMenu = React.createClass({
     return (
       <div className={'dd-menu' + (this.props.className ? ' ' + this.props.className : '')}>
         {this.props.toggle}
-        <CSSTransitionGroup transitionName={'grow-from-' + this.props.direction} component="div"
-                          className="dd-menu-items" onKeyDown={this.handleKeyDown}>
+        <CSSTransitionGroup
+          transitionAppear={true}
+          transitionLeaveTimeout={300}
+          transitionEnterTimeout={500}
+          transitionAppearTimeout={500}
+          transitionName={'grow-from-' + this.props.direction}
+          component="div"
+          className="dd-menu-items"
+          onKeyDown={this.handleKeyDown}>
           {items}
         </CSSTransitionGroup>
       </div>
@@ -219,13 +219,6 @@ const DropdownMenu = React.createClass({
 });
 
 const DropdownMenuItem = React.createClass({
-  propTypes: {
-    action: React.PropTypes.func.isRequired,
-    childrenProps: React.PropTypes.object,
-    tabIndex: React.PropTypes.number,
-    component: React.PropTypes.oneOf(['button', 'a']),
-    className: React.PropTypes.string
-  },
 
   getDefaultProps() {
     return {
@@ -254,5 +247,20 @@ const DropdownMenuItem = React.createClass({
   }
 });
 
+DropdownMenuItem.propTypes = {
+  action: PropTypes.func.isRequired,
+  childrenProps: PropTypes.object,
+  tabIndex: PropTypes.number,
+  component: PropTypes.oneOf(['button', 'a']),
+  className: PropTypes.string
+}
 
+DropdownMenu.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  forceCloseFunction: PropTypes.func.isRequired,
+  toggle: PropTypes.node.isRequired,
+  direction: PropTypes.oneOf(['center', 'right', 'left']),
+  className: PropTypes.string,
+  component: PropTypes.oneOf(['div', 'span', 'li'])
+}
 export default NavBar;
