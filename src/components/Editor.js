@@ -15,7 +15,8 @@ import 'brace/mode/html';
 import 'brace/mode/javascript';
 import 'brace/mode/java';
 import 'brace/mode/php';
-import 'brace/mode/json'
+import 'brace/mode/json';
+import 'brace/mode/markdown';
 import 'brace/theme/kr_theme';
 import 'brace/theme/github';
 import 'brace/theme/monokai';
@@ -53,7 +54,7 @@ const Editor = React.createClass({
     if (nextProps.fileData.mustSave !== this.state.mustSave) {
       this.setState({
         mustSave: nextProps.fileData.mustSave
-      }, this._saveFile());
+      }, nextProps.fileData.mustSave ? this._saveFile() : null);
     }
   },
 
@@ -67,11 +68,14 @@ const Editor = React.createClass({
   _renderThemePicker() {
     const { theme } = this.state;
     return (
-      <select onChange={(e) => this._changeCurrentTheme(e)}>
-        <option selected={theme === 'github'} value="github">github</option>
-        <option selected={theme === 'kr_theme'} value="kr_theme">krTheme</option>
-        <option selected={theme === 'monokai'} value="monokai">Monokai</option>
-      </select>
+      <div className={'selectStyle'}>
+        <p>Editor Theme</p>
+        <select defaultValue={theme} onChange={(e) => this._changeCurrentTheme(e)}>
+          <option value="github">github</option>
+          <option value="kr_theme">krTheme</option>
+          <option value="monokai">Monokai</option>
+        </select>
+      </div>
     );
   },
 
@@ -276,11 +280,11 @@ const Editor = React.createClass({
         }
         {this.state.editSettings &&
           <div>
-            <div style={{display: 'inline-block'}}>
+            <div className={'preferences'}>
               {this._renderThemePicker()}
-              <button className={'btn btn-danger'} onClick={() => this.props.toggleEditMode(false)}>Return</button>
-              <button className={'btn btn-danger'} onClick={(e) => this.props._saveFile(e)}>Save</button>
-            </div>
+              <div className={'lineBreak'} />
+              <button className={'defaultButton'} onClick={() => this.props.toggleEditMode(false)}>Return</button>
+              </div>
           </div>
         }
       </div>

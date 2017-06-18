@@ -35,10 +35,14 @@ export default function fileDataReducer(state = initialState.fileData, action) {
       return newState;
 
     case ActionTypes.SAVE_FILE:
-      newState = objectAssigm({}, state);
+      newState = objectAssign({}, state);
+      newState.currentFile  = action.response.result[1];
       newState.mustSave = false;
       return newState;
-    
+
+    case ActionTypes.GET_SOURCE_CODE_ERROR:
+      return state;
+
     default:
       return state;
   }

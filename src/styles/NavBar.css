@@ -180,7 +180,6 @@ $dd-inverse-hover-text-color: $white-base;
   .dd-menu-items {
     position: absolute;
     z-index: $dd-menu-z-index;
-    margin-top: 0.5em;
 
     > ul,
     > ol {

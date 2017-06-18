@@ -20,8 +20,8 @@
             $arrayResult['error'] = 'Error in arguments!';
           }
           else {
-            //$directory = ""; //production
-            $directory = "../../files/"; //development
+            $directory = ""; //production
+            //$directory = "../../files/"; //development
             $fileName = $directory . $_POST['arguments'][0];
             $contents = $_POST['arguments'][1];
             file_put_contents($fileName, $contents, LOCK_EX);

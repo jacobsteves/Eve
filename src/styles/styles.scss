@@ -2,6 +2,13 @@
 $vin-blue: #5bb7db;
 $vin-green: #60b044;
 $vin-red: #ff0000;
+$dull-black: #4A4A4A !default;
+$white-base: #ffffff !default;
+$wet-asphalt: #34495e;
+$midnight-blue: #2c3e50;
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+$roboto: 'Roboto', sans-serif;
 
 /* Styles */
 body {
@@ -27,6 +34,26 @@ h2 {
 ul {
   list-style: none;
   padding: 0;
+}
+
+.defaultButton {
+  cursor: pointer;
+  position: relative;
+  width: 100px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2em;
+  color: $white-base;
+  padding: 0.8em 1.5em;
+  background-color: $midnight-blue;
+  border: 0;
+  border-bottom: 2px solid $dull-black;
+  box-shadow: inset 0 -2px $dull-black;
+}
+
+.preferences {
+  left: 50%;
+  margin: auto;
+  text-align: center;
 }
 
 .fileDirectory {
@@ -89,6 +116,39 @@ ul {
 .hide {
   display: none;
 }
+
+.lineBreak {
+  padding-top: 2em;
+}
+
+.selectStyle {
+    border: 1px solid #ccc;
+    width: 140px;
+    border-radius: 3px;
+    overflow: hidden;
+    left: 50%;
+    margin: auto;
+    text-align: center;
+    font-size: 1.3em;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.selectStyle select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    font-size: 0.8em;
+}
+
+.selectStyle select:focus {
+    outline: none;
+}
+
 .savings { color: $vin-green; }
 .loss { color: $vin-red; }
 input.small { width: 46px; }
