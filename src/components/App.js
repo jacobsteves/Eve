@@ -16,7 +16,7 @@ import {
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <div className={'fullScreen'}>
         <NavBar
           toggleEditMode={this.props.actions.toggleEditMode}
           toggleMustSave={this.props.actions.toggleMustSave}

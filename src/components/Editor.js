@@ -27,6 +27,7 @@ const Editor = React.createClass({
       fileName: null,
       fileDirectory: null,
       openedFiles: [],
+      storedFiles: [],
       editSettings: false,
       mustSave: false
     };
@@ -34,8 +35,14 @@ const Editor = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.fileData.currentFile !== this.state.editorValue) {
-      const { fileDirectory, localLocationLen } = this.state;
+      const { fileDirectory, localLocationLen, fileName, storedFiles } = this.state;
+      fileName && fileDirectory && storedFiles.push({
+        name: fileName,
+        directory: fileDirectory,
+        content: nextProps.fileData.currentFile.toString()
+      });
       this.setState({
+        storedFiles: fileName && fileDirectory ? storedFiles : [],
         editorValue: nextProps.fileData.currentFile.toString(),
         activeDirectory: fileDirectory.substring(localLocationLen, fileDirectory.length).split('/')
       });
@@ -82,8 +89,11 @@ const Editor = React.createClass({
   },
 
   _onEditorChange(value) {
+    const { currentFileId, storedFiles } = this.state;
+    storedFiles[currentFileId].content = value;
     this.setState({
-      editorValue: value
+      editorValue: value,
+      storedFiles: storedFiles
     })
   },
 
@@ -106,7 +116,8 @@ const Editor = React.createClass({
     const splitBySlash = directory.split('/');
     let newName = splitBySlash[splitBySlash.length - 1];
 
-    const { openedFiles } = this.state;
+    const { openedFiles, storedFiles } = this.state;
+
     let openedFilesContainsNew = false;
     for(var i = 0; i < openedFiles.length; i++) {
         if (openedFiles[i].name == newName) {
@@ -122,7 +133,18 @@ const Editor = React.createClass({
       fileName: newName,
       openedFiles: openedFiles
     });
-    this.props.getSourceCode(directory);
+    if (openedFilesContainsNew && storedFiles) {
+      console.log(storedFiles);
+      storedFiles.map((file, index) => {
+        if (file.directory === directory) {
+          console.log('nice');
+          this.setState({ editorValue: file.content, currentFileId: index });
+        }
+        return file;
+      });
+    } else {
+      this.props.getSourceCode(directory);
+    }
   },
 
   _changeFileName(e) {
@@ -204,7 +226,7 @@ const Editor = React.createClass({
   _renderFileTabs() {
     const { openedFiles, fileName } = this.state;
     return (
-      <div>
+      <div className={'fullScreen'}>
         <nav>
     			<ul className={'editorTabs'}>
             {openedFiles && openedFiles.map((file, i) => {
@@ -230,6 +252,7 @@ const Editor = React.createClass({
           {this.state.fileName &&
             <AceEditor
               width={100 + '%'}
+              height={100 + '%'}
               ref='aceEditor'
               mode={this.state.mode}
               theme={this.state.theme}
@@ -249,14 +272,14 @@ const Editor = React.createClass({
   render() {
     const fileDirectories = this.props.fileData.fileDirectories;
     return (
-      <div>
+      <div className={'fullScreen'}>
         {!this.state.editSettings && this.state.fileDirectory &&
-          <div>
+          <div className={'fullScreen'}>
             <div className={'editorSideMenu'}>
               {this._renderFiles(fileDirectories)}
             </div>
             <div className={'editorWindow'}>
-              <div className={'editorTab'}>
+              <div className={'fullScreen'}>
                 {this._renderFileTabs()}
               </div>
             </div>

@@ -153,6 +153,14 @@ ul {
     outline: none;
 }
 
+.fullScreen {
+    height: 100%;
+}
+
+.editorCanvas {
+  height: 99%;
+}
+
 .savings { color: $vin-green; }
 .loss { color: $vin-red; }
 input.small { width: 46px; }
