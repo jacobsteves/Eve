@@ -21,7 +21,7 @@ const Editor = React.createClass({
       mode: 'html',
       theme: 'chaos',
       editorValue: this.props.fileData.currentFile.toString(),
-      activeDirectory: [],
+      activeDirectory: ['assets'],
       isOpened: [],
       localLocationLen: 6,
       fileName: null,
@@ -29,7 +29,8 @@ const Editor = React.createClass({
       openedFiles: [],
       storedFiles: [],
       editSettings: false,
-      mustSave: false
+      mustSave: false,
+      currentFileId: 0
     };
   },
 
@@ -43,8 +44,7 @@ const Editor = React.createClass({
       });
       this.setState({
         storedFiles: fileName && fileDirectory ? storedFiles : [],
-        editorValue: nextProps.fileData.currentFile.toString(),
-        activeDirectory: fileDirectory.substring(localLocationLen, fileDirectory.length).split('/')
+        editorValue: nextProps.fileData.currentFile.toString()
       });
     }
     if (nextProps.fileData.editSettings !== this.state.editSettings) {
@@ -97,14 +97,28 @@ const Editor = React.createClass({
     })
   },
 
+  _arraysEqual(arrayOne, arrayTwo) {
+    if(arrayOne.length !== arrayTwo.length) {
+      return false;
+    }
+    for(var i = arrayOne.length; i--;) {
+      if(arrayOne[i] !== arrayTwo[i]) {
+        return false;
+      }
+    }
+    return true;
+  },
+
   _changeCurDirectory(directory, index) {
-    const { isOpened, localLocationLen } = this.state;
+    const { isOpened, localLocationLen, activeDirectory, fileDirectory } = this.state;
+    const newDirectory = directory.location.substring(localLocationLen, directory.location.length).split('/');
+    const test = fileDirectory.substring(localLocationLen, fileDirectory.length).split('/');
     this.setState({
-      activeDirectory: directory.location.substring(localLocationLen, directory.location.length).split('/')
+      activeDirectory: this._arraysEqual(newDirectory, activeDirectory) ? newDirectory.slice(0, -1) : newDirectory
     })
   },
 
-  _handleSideBarClick(directory, index) {
+  _handleSideBarClick(directory, index, e = '') {
     const isDir = directory.isDir;
     isDir ? this._changeCurDirectory(directory, index) : this._changeCurFile(directory.location);
   },
@@ -118,14 +132,14 @@ const Editor = React.createClass({
 
     const { openedFiles, storedFiles } = this.state;
 
-    let openedFilesContainsNew = false;
-    for(var i = 0; i < openedFiles.length; i++) {
-        if (openedFiles[i].name == newName) {
-            openedFilesContainsNew = true;
+    let storedFilesContainsNew = false;
+    for(var i = 0; i < storedFiles.length; i++) {
+        if (storedFiles[i].name == newName) {
+            storedFilesContainsNew = true;
             break;
         }
     }
-    !openedFilesContainsNew ? openedFiles.push({'directory': directory, 'name': newName}) : null;
+    !storedFilesContainsNew ? openedFiles.push({'directory': directory, 'name': newName}) : null;
 
     this.setState({
       mode: languageHandler(newMode),
@@ -133,11 +147,9 @@ const Editor = React.createClass({
       fileName: newName,
       openedFiles: openedFiles
     });
-    if (openedFilesContainsNew && storedFiles) {
-      console.log(storedFiles);
+    if (storedFilesContainsNew && storedFiles) {
       storedFiles.map((file, index) => {
         if (file.directory === directory) {
-          console.log('nice');
           this.setState({ editorValue: file.content, currentFileId: index });
         }
         return file;
@@ -158,16 +170,35 @@ const Editor = React.createClass({
   },
 
   _removeTab(file) {
-    let { openedFiles } = this.state;
-    for(var i = 0; i < openedFiles.length; i++) {
-      if(openedFiles[i].directory == file.directory) {
+    let { openedFiles, storedFiles, currentFileId } = this.state;
+    const len = storedFiles.length;
+    let onlyTab = false;
+    let leftOverRight = false;
+    for (var i = 0; i < len; i++) {
+      if(storedFiles[i].directory == file.directory) {
           openedFiles.splice(i, 1);
+          storedFiles.splice(i, 1);
+          leftOverRight = i + 1 >= len;
+          onlyTab = len === 1;
           break;
         }
     }
+    const newFileIndexLocation = leftOverRight ? currentFileId - 1 : currentFileId;
     this.setState({
-      openedFiles: openedFiles
-    })
+      currentFileId: onlyTab ? console.log('clear!') : newFileIndexLocation,
+      editorValue: '',
+      fileName: onlyTab ? '' : storedFiles[newFileIndexLocation].name,
+      fileDirectory: onlyTab ? '' : storedFiles[newFileIndexLocation].content,
+      openedFiles: openedFiles,
+      storedFiles: storedFiles
+    });
+    if (onlyTab) {
+      console.log('clear!');
+    } else if (leftOverRight) {
+      console.log('goLeft');
+    } else {
+      console.log('goRight');
+    }
   },
 
   _renderFileChildren(fileDirectories, activeDirectory) {
@@ -184,10 +215,8 @@ const Editor = React.createClass({
                   {directory.name.toString()}
                 </div>
                 <ul className={directory.isDir ? 'isDirectory' : 'hide'}>
-                  {activeDirectory[0] === directory.name &&
-                    directory.isDir &&
-                    activeDirectory.shift() &&
-                    this._renderFileChildren(directory.children, activeDirectory)}
+                  {(activeDirectory[0] === directory.name && directory.isDir && activeDirectory.length) &&
+                    this._renderFileChildren(directory.children, activeDirectory.slice(1))}
                 </ul>
             </li>
           );
@@ -197,7 +226,7 @@ const Editor = React.createClass({
   },
 
   _renderFiles(fileDirectories) {
-    let { activeDirectory } = this.state;
+    const { activeDirectory } = this.state;
     return (
       <ul>
         {fileDirectories && fileDirectories.map((directory, index) => {
@@ -207,14 +236,12 @@ const Editor = React.createClass({
               key={index}>
                 <div
                   className={'sideBarFileLink'}
-                  onClick={() => this._handleSideBarClick(directory, index)}>
+                  onClick={(e) => this._handleSideBarClick(directory, index, e)}>
                   {directory.name.toString()}
                 </div>
                 <ul className={directory.isDir ? 'isDirectory' : 'hide'}>
-                  {activeDirectory[0] === directory.name &&
-                    directory.isDir &&
-                    activeDirectory.shift() &&
-                    this._renderFileChildren(directory.children, activeDirectory)}
+                  {(activeDirectory[0] === directory.name && directory.isDir && activeDirectory.length) &&
+                    this._renderFileChildren(directory.children, activeDirectory.slice(1))}
                 </ul>
             </li>
           );
@@ -224,12 +251,12 @@ const Editor = React.createClass({
   },
 
   _renderFileTabs() {
-    const { openedFiles, fileName } = this.state;
+    const { storedFiles, fileName } = this.state;
     return (
       <div className={'fullScreen'}>
         <nav>
     			<ul className={'editorTabs'}>
-            {openedFiles && openedFiles.map((file, i) => {
+            {storedFiles && storedFiles.map((file, i) => {
               return (
                 <li
                   key={i}
