@@ -8,6 +8,11 @@ import '../styles/NavBar.css';
 
 const _navBarProperties = [{
   direction: 'center',
+  text: 'hamburgerMenu',
+  className: 'hamburgerMenu',
+  children: null
+}, {
+  direction: 'center',
   text: 'Eve',
   className: 'eveMenuDropDown',
   children: [
@@ -120,6 +125,19 @@ const NavBar = React.createClass({
       return (
           <div className={'navBarFiller'}>
             {_navBarProperties.map((item, i) => {
+              if (item.text === 'hamburgerMenu') {
+                return (
+                  <div
+                    key={'item' + i}
+                    className={'titleNav ' + item.className}>
+                    <div className={'hamburgerButton'} onClick={() => this.props.toggleSideMenu()}>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                );
+              }
               return (
                 <DropdownMenu
                     isOpen={this.state.open[i]}

@@ -57,6 +57,12 @@ const Editor = React.createClass({
         editSettings: nextProps.fileData.editSettings
       });
     }
+    if (nextProps.fileData.popOutSideMenuActive !== this.state.popOutSideMenuActive) {
+      this.setState({
+        popOutSideMenuActive: nextProps.fileData.popOutSideMenuActive
+      });
+      document.getElementById("mySidenav").style.width = nextProps.fileData.popOutSideMenuActive ? "250px" : "0px";
+    }
     if (nextProps.fileData.mustSave !== this.state.mustSave) {
       this.setState({
         mustSave: nextProps.fileData.mustSave
@@ -230,8 +236,10 @@ const Editor = React.createClass({
 
   _renderFiles(fileDirectories) {
     const { activeDirectory } = this.state;
+    const { popOutSideMenuActive } = this.props.fileData;
     return (
       <ul>
+        {popOutSideMenuActive && <li className="closeSideMenu" onClick={() => this.props.toggleSideMenu()}>&times;</li>}
         {fileDirectories && fileDirectories.map((directory, index) => {
           return (
             <li
@@ -303,12 +311,12 @@ const Editor = React.createClass({
   },
 
   render() {
-    const fileDirectories = this.props.fileData.fileDirectories;
+    const {fileDirectories, popOutSideMenuActive} = this.props.fileData;
     return (
       <div className={'fullScreen'}>
         {!this.state.editSettings &&
           <div className={'fullScreen'}>
-            <div className={'editorSideMenu'}>
+            <div className={'editorSideMenu'} id={'mySidenav'}>
               {this._renderFiles(fileDirectories)}
             </div>
             <div className={'editorWindow'}>

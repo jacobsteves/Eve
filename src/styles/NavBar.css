@@ -443,3 +443,27 @@ h1 {
 .eveMenuText {
   font-weight: bold;
 }
+.hamburgerMenu {
+  display: none;
+  cursor: pointer;
+  left: 50%;
+  top: 50%;
+  padding-left: 1em;
+  padding-bottom: 0;
+  width: 50px;
+}
+
+.hamburgerButton {
+}
+.hamburgerButton div {
+  width: 20px;
+  height: 3px;
+  background-color: white;
+  margin: 3px 0;
+}
+
+@media only screen and (max-width: 768px), only screen and (max-device-width: 768px) {
+  .hamburgerMenu {
+    display:inline-block;
+  }
+}

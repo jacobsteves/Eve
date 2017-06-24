@@ -92,6 +92,11 @@ ul {
   padding: 1em;
   width: 20%;
 }
+
+.editorSideMenu .closeSideMenu {
+  display: none;
+}
+
 .sideBarFileLink {
   cursor: pointer;
   display: inline;
@@ -181,14 +186,50 @@ td.fuel-savings-label {
   width: 175px;
 }
 
-@media only screen and (max-device-width: 768px) {
+@media only screen and (max-width: 768px), only screen and (max-device-width: 768px) {
   .editorWindow {
     width: 100%;
     height: 100%;
   }
 
+  .sideBarFileLink:hover {
+    color: #f1f1f1;
+  }
+
   .editorSideMenu {
-    display: none;
+    padding: 0;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: scroll;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+
+  .editorSideMenu li {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+  }
+
+  .editorSideMenu li:hover, .offcanvas li:focus{
+      color: #f1f1f1;
+  }
+
+  .editorSideMenu .closeSideMenu {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
   }
 
   body {
@@ -234,58 +275,21 @@ td.fuel-savings-label {
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .editorWindow {
-    width: 100%;
-    height: 100%;
-  }
-
+@media only screen and (min-width: 768px) {
   .editorSideMenu {
-    display: none;
-  }
-
-  body {
-    background-color: #222;
-  }
-
-  .preferences {
-    left: 50%;
-    margin: auto;
-    text-align: center;
-    color: white;
-  }
-
-  .selectStyle {
-      border: 1px solid #fff;
-      width: 140px;
-      border-radius: 3px;
-      overflow: hidden;
-      left: 50%;
-      margin: auto;
-      text-align: center;
-      font-size: 1.3em;
-      margin-top: 2em;
-      padding-left: 10px;
-      padding-right: 10px;
-      color: white;
-  }
-
-  .selectStyle select {
-      padding: 5px 8px;
-      width: 130%;
-      border: none;
-      box-shadow: none;
-      background: transparent;
-      background-image: none;
-      -webkit-appearance: none;
-      font-size: 0.8em;
-      color: white;
-  }
-
-  .selectStyle select:focus {
-      outline: none;
+    width: 20%;
   }
 }
 
 @media only screen and (max-width: 1024px) {
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+@media screen and (max-device-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
 }

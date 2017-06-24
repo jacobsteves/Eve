@@ -8,7 +8,8 @@ export default function fileDataReducer(state = initialState.fileData, action) {
       currentFile: '',
       fileDirectories: '',
       editSettings: false,
-      mustSave: false
+      mustSave: false,
+      popOutSideMenuActive: false
     };
   };
   let newState;
@@ -32,6 +33,11 @@ export default function fileDataReducer(state = initialState.fileData, action) {
     case ActionTypes.TOGGLE_MUST_SAVE:
       newState = objectAssign({}, state);
       newState.mustSave = action.response;
+      return newState;
+
+    case ActionTypes.TOGGLE_SIDE_MENU:
+      newState = objectAssign({}, state);
+      newState.popOutSideMenuActive = !state.popOutSideMenuActive;
       return newState;
 
     case ActionTypes.SAVE_FILE:

@@ -59,3 +59,7 @@ export function toggleEditMode(response) {
 export function toggleMustSave(response) {
   return { response, type: types.TOGGLE_MUST_SAVE };
 }
+
+export function toggleSideMenu(response) {
+  return { response, type: types.TOGGLE_SIDE_MENU };
+}

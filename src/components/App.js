@@ -7,7 +7,8 @@ import NavBar from './NavBar';
 
 import {
   toggleEditMode,
-  toggleMustSave
+  toggleMustSave,
+  toggleSideMenu
 } from '../actions/FileActions';
 
 // This is a class-based component because the current
@@ -20,6 +21,7 @@ class App extends React.Component {
         <NavBar
           toggleEditMode={this.props.actions.toggleEditMode}
           toggleMustSave={this.props.actions.toggleMustSave}
+          toggleSideMenu={this.props.actions.toggleSideMenu}
           />
         {this.props.children}
       </div>
@@ -40,7 +42,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       toggleEditMode,
-      toggleMustSave
+      toggleMustSave,
+      toggleSideMenu
     }, dispatch)
   };
 }
