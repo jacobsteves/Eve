@@ -25,13 +25,18 @@ const Editor = React.createClass({
       isOpened: [],
       localLocationLen: 6,
       fileName: null,
-      fileDirectory: null,
+      fileDirectory: '',
       openedFiles: [],
       storedFiles: [],
       editSettings: false,
       mustSave: false,
       currentFileId: 0
     };
+  },
+
+  componentWillMount() {
+    this.props.getSourceCode('');
+    this.props.getFileDirectories();
   },
 
   componentWillReceiveProps(nextProps) {
@@ -277,7 +282,7 @@ const Editor = React.createClass({
     		</nav>
 
         <section className={"editorCanvas"}>
-          {this.state.fileName &&
+          {this.state.fileName && this.state.fileDirectory &&
             <AceEditor
               width={100 + '%'}
               height={100 + '%'}
@@ -301,7 +306,7 @@ const Editor = React.createClass({
     const fileDirectories = this.props.fileData.fileDirectories;
     return (
       <div className={'fullScreen'}>
-        {!this.state.editSettings && this.state.fileDirectory &&
+        {!this.state.editSettings &&
           <div className={'fullScreen'}>
             <div className={'editorSideMenu'}>
               {this._renderFiles(fileDirectories)}
@@ -311,15 +316,6 @@ const Editor = React.createClass({
                 {this._renderFileTabs()}
               </div>
             </div>
-          </div>
-        }
-        {!this.state.editSettings && !this.state.fileDirectory &&
-          <div>
-            <h3>Please create a filename</h3>
-            <form onSubmit={(e) => this._changeFileName(e)}>
-              <input type='text' ref='fileNameInput' placeholder='example.js' />
-              <input type='submit'/>
-            </form>
           </div>
         }
         {this.state.editSettings &&

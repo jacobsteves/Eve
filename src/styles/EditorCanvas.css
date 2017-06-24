@@ -83,7 +83,6 @@ nav .editorTabs {
 	clear: both;
 	min-width: 420px;
 	padding-top: 10px;
-	border-radius: 10px;
 	box-shadow: 0px 0px 10px rgba(0,0,0,.5);
 	background: #000;
 }
