@@ -161,6 +161,10 @@ ul {
   height: 99%;
 }
 
+.fileTab {
+  cursor: pointer;
+}
+
 .savings { color: $vin-green; }
 .loss { color: $vin-red; }
 input.small { width: 46px; }

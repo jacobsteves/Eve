@@ -21,7 +21,7 @@ const Editor = React.createClass({
       mode: 'html',
       theme: 'chaos',
       editorValue: this.props.fileData.currentFile.toString(),
-      activeDirectory: ['assets'],
+      activeDirectory: [],
       isOpened: [],
       localLocationLen: 6,
       fileName: null,
@@ -130,11 +130,12 @@ const Editor = React.createClass({
     const splitBySlash = directory.split('/');
     let newName = splitBySlash[splitBySlash.length - 1];
 
-    const { openedFiles, storedFiles } = this.state;
+    const storedFiles = this.state.storedFiles.slice();
+    const openedFiles = this.state.openedFiles.slice();
 
     let storedFilesContainsNew = false;
     for(var i = 0; i < storedFiles.length; i++) {
-        if (storedFiles[i].name == newName) {
+        if (openedFiles[i].name == newName) {
             storedFilesContainsNew = true;
             break;
         }
@@ -170,35 +171,32 @@ const Editor = React.createClass({
   },
 
   _removeTab(file) {
-    let { openedFiles, storedFiles, currentFileId } = this.state;
+    let { currentFileId } = this.state;
+    const openedFiles = this.state.openedFiles.slice();
+    const storedFiles = this.state.storedFiles.slice();
     const len = storedFiles.length;
+    let index = 0;
     let onlyTab = false;
     let leftOverRight = false;
     for (var i = 0; i < len; i++) {
-      if(storedFiles[i].directory == file.directory) {
+      if(openedFiles[i].directory == file.directory) {
           openedFiles.splice(i, 1);
           storedFiles.splice(i, 1);
           leftOverRight = i + 1 >= len;
           onlyTab = len === 1;
+          index = i;
           break;
         }
     }
     const newFileIndexLocation = leftOverRight ? currentFileId - 1 : currentFileId;
     this.setState({
       currentFileId: onlyTab ? console.log('clear!') : newFileIndexLocation,
-      editorValue: '',
+      editorValue: onlyTab ? '' : storedFiles[newFileIndexLocation].content,
       fileName: onlyTab ? '' : storedFiles[newFileIndexLocation].name,
-      fileDirectory: onlyTab ? '' : storedFiles[newFileIndexLocation].content,
+      fileDirectory: onlyTab ? '' : storedFiles[newFileIndexLocation].directory,
       openedFiles: openedFiles,
       storedFiles: storedFiles
     });
-    if (onlyTab) {
-      console.log('clear!');
-    } else if (leftOverRight) {
-      console.log('goLeft');
-    } else {
-      console.log('goRight');
-    }
   },
 
   _renderFileChildren(fileDirectories, activeDirectory) {
@@ -260,10 +258,13 @@ const Editor = React.createClass({
               return (
                 <li
                   key={i}
-                  id={fileName === file.name ? 'selected' : ''}
-                  onClick={() => this._changeCurFile(file.directory)}>
+                  id={fileName === file.name ? 'selected' : ''}>
                   <div>
-                    <p>{file.name}</p>
+                    <p
+                      className={'fileTab'}
+                      onClick={() => this._changeCurFile(file.directory)}>
+                      {file.name}
+                    </p>
                     <img
                       onClick={() => this._removeTab(file)}
                       className={'closeButton'}
