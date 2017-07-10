@@ -40,7 +40,8 @@ const Editor = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.fileData.currentFile !== this.state.editorValue) {
+    if (nextProps.fileData.currentFile !== this.state.editorValue &&
+    nextProps.fileData.popOutSideMenuActive === this.state.popOutSideMenuActive) {
       const { fileDirectory, localLocationLen, fileName, storedFiles } = this.state;
       fileName && fileDirectory && storedFiles.push({
         name: fileName,

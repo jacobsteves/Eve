@@ -37,7 +37,7 @@ export default function fileDataReducer(state = initialState.fileData, action) {
 
     case ActionTypes.TOGGLE_SIDE_MENU:
       newState = objectAssign({}, state);
-      newState.popOutSideMenuActive = !state.popOutSideMenuActive;
+      newState.popOutSideMenuActive = !newState.popOutSideMenuActive;
       return newState;
 
     case ActionTypes.SAVE_FILE:

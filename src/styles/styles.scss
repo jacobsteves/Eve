@@ -36,6 +36,12 @@ ul {
   padding: 0;
 }
 
+.editorSideMenu ul {
+  list-style: none;
+  padding: 0;
+  line-height: 0px;
+}
+
 .defaultButton {
   cursor: pointer;
   position: relative;
@@ -211,7 +217,7 @@ td.fuel-savings-label {
   }
 
   .editorSideMenu li {
-      padding: 8px 8px 8px 32px;
+      padding: 25px 8px 8px 48px;
       text-decoration: none;
       font-size: 25px;
       color: #818181;
