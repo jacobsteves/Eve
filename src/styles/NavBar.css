@@ -329,13 +329,13 @@ header {
   flex-grow: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 4768px) {
   main {
     width: 720px;
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 4992px) {
   main {
     width: 940px;
   }
@@ -444,7 +444,7 @@ h1 {
   font-weight: bold;
 }
 .hamburgerMenu {
-  display: none;
+  display: inline-block;
   cursor: pointer;
   left: 50%;
   top: 50%;
@@ -452,18 +452,9 @@ h1 {
   padding-bottom: 0;
   width: 50px;
 }
-
-.hamburgerButton {
-}
 .hamburgerButton div {
   width: 20px;
   height: 3px;
   background-color: white;
   margin: 3px 0;
-}
-
-@media only screen and (max-width: 768px), only screen and (max-device-width: 768px) {
-  .hamburgerMenu {
-    display:inline-block;
-  }
 }

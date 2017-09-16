@@ -5,6 +5,9 @@
 
 Eve is a web application allowing users to edit code on their website directly through their site. [Adam](http://jacobsteves.ca) is a desktop version of Eve.
 
+## Demo
+[![https://gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7](https://i.gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7.gif)](https://gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7)
+
 ## Get Started
 ### Frontend
 1. **Install [Node 4.0.0 or greater](https://nodejs.org)** - (5.0 or greater is recommended for optimal build performance). Need to run multiple versions of Node? Use [nvm](https://github.com/creationix/nvm).

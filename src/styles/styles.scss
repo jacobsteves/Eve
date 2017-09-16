@@ -101,6 +101,7 @@ ul {
 
 .editorSideMenu .closeSideMenu {
   display: none;
+  cursor: pointer;
 }
 
 .sideBarFileLink {
@@ -192,7 +193,7 @@ td.fuel-savings-label {
   width: 175px;
 }
 
-@media only screen and (max-width: 768px), only screen and (max-device-width: 768px) {
+@media only screen and (max-width: 4768px), only screen and (max-device-width: 4768px) {
   .editorWindow {
     width: 100%;
     height: 100%;
@@ -281,21 +282,10 @@ td.fuel-savings-label {
   }
 }
 
-@media only screen and (min-width: 768px) {
-  .editorSideMenu {
-    width: 20%;
-  }
+.sidenav {
+  padding-top: 15px;
 }
 
-@media only screen and (max-width: 1024px) {
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-
-@media screen and (max-device-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+.sidenav a {
+  font-size: 18px;
 }
