@@ -3,7 +3,7 @@
 [![Codeship](https://img.shields.io/codeship/d6c1ddd0-16a3-0132-5f85-2e35c05e22b1.svg)]()
 [![PyPI](https://img.shields.io/pypi/l/Django.svg)]()
 
-Eve is a web application allowing users to edit code on their website directly through their site. [Adam](http://jacobsteves.ca) is a desktop version of Eve.
+Eve is a web application allowing users to edit code on their website directly through their site.
 
 ## Demo
 [![https://gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7](https://i.gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7.gif)](https://gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7)
