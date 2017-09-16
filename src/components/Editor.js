@@ -40,31 +40,39 @@ const Editor = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.fileData.currentFile !== this.state.editorValue &&
-    nextProps.fileData.popOutSideMenuActive === this.state.popOutSideMenuActive) {
+    const mustSave = nextProps.fileData.mustSave !== this.state.mustSave;
+    const nextFile = nextProps.fileData.currentFile;
+    const sameSideMenu = nextProps.fileData.popOutSideMenuActive === this.state.popOutSideMenuActive;
+    const newEditSettings = nextProps.fileData.editSettings !== this.state.editSettings;
+    const popoutSideMenu = !sameSideMenu;
+
+    if (nextFile !== this.state.editorValue && sameSideMenu && !mustSave) {
       const { fileDirectory, localLocationLen, fileName, storedFiles } = this.state;
       fileName && fileDirectory && storedFiles.push({
         name: fileName,
         directory: fileDirectory,
-        content: nextProps.fileData.currentFile.toString()
+        content: nextFile.toString()
       });
       this.setState({
         storedFiles: fileName && fileDirectory ? storedFiles : [],
-        editorValue: nextProps.fileData.currentFile.toString()
+        editorValue: nextFile.toString()
       });
     }
-    if (nextProps.fileData.editSettings !== this.state.editSettings) {
+
+    if (newEditSettings) {
       this.setState({
         editSettings: nextProps.fileData.editSettings
       });
     }
-    if (nextProps.fileData.popOutSideMenuActive !== this.state.popOutSideMenuActive) {
+
+    if (popoutSideMenu) {
       this.setState({
         popOutSideMenuActive: nextProps.fileData.popOutSideMenuActive
       });
       document.getElementById("mySidenav").style.width = nextProps.fileData.popOutSideMenuActive ? "250px" : "0px";
     }
-    if (nextProps.fileData.mustSave !== this.state.mustSave) {
+
+    if (mustSave) {
       this.setState({
         mustSave: nextProps.fileData.mustSave
       }, nextProps.fileData.mustSave ? this._saveFile() : null);
@@ -240,7 +248,13 @@ const Editor = React.createClass({
     const { popOutSideMenuActive } = this.props.fileData;
     return (
       <ul>
-        {popOutSideMenuActive && <li className="closeSideMenu" onClick={() => this.props.toggleSideMenu()}>&times;</li>}
+        {popOutSideMenuActive &&
+          <li
+            className="closeSideMenu"
+            onClick={() => this.props.toggleSideMenu()}>
+            &times;
+          </li>
+        }
         {fileDirectories && fileDirectories.map((directory, index) => {
           return (
             <li
@@ -332,7 +346,11 @@ const Editor = React.createClass({
             <div className={'preferences'}>
               {this._renderThemePicker()}
               <div className={'lineBreak'} />
-              <button className={'defaultButton'} onClick={() => this.props.toggleEditMode(false)}>Return</button>
+              <button
+                className={'defaultButton'}
+                onClick={() => this.props.toggleEditMode(false)}>
+                Return
+              </button>
               </div>
           </div>
         }
@@ -340,10 +358,6 @@ const Editor = React.createClass({
     );
   }
 });
-
-// <form onSubmit={(e) => this._saveFile(e)}>
-//   <input type='submit' value='Save'/>
-// </form>
 
 Editor.propTypes = {
   saveFile: PropTypes.func.isRequired
