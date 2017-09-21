@@ -1,6 +1,5 @@
 # ![project logo](http://www.jacobsteves.ca/images/eveLogo.png)Eve
 [![Eve](https://img.shields.io/badge/Steves-Eve%20v1.0.0-brightgreen.svg)]()
-[![Codeship](https://img.shields.io/codeship/d6c1ddd0-16a3-0132-5f85-2e35c05e22b1.svg)]()
 [![PyPI](https://img.shields.io/pypi/l/Django.svg)]()
 
 Eve is a web application allowing users to edit code on their website directly through their site.
@@ -8,7 +7,7 @@ Eve is a web application allowing users to edit code on their website directly t
 ## Demo
 [![https://gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7](https://i.gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7.gif)](https://gyazo.com/c23eba30339b0c71ccfe0b89df37a5a7)
 
-## Get Started
+## Get Started Locally
 ### Frontend
 1. **Install [Node 4.0.0 or greater](https://nodejs.org)** - (5.0 or greater is recommended for optimal build performance). Need to run multiple versions of Node? Use [nvm](https://github.com/creationix/nvm).
 2. **Install [Git](https://git-scm.com/downloads)**.
