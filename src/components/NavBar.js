@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { Link } from 'react-router';
 import { CSSTransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
+import Package from '../../package.json';
 import '../styles/NavBar.css';
 
 const _navBarProperties = [{
@@ -46,14 +47,6 @@ const _navBarProperties = [{
       name: 'Save File As'
     }
   ]
-}, {
-  direction: 'left',
-  text: 'Edit',
-  children: null
-}, {
-  direction: 'left',
-  text: 'Settings',
-  children: null
 }, {
   direction: 'left',
   text: 'Help',
@@ -101,10 +94,13 @@ const NavBar = React.createClass({
 
   click(id, name) {
     if (name === 'GitHub') { window.open("http://www.github.com/jacobsteves/eve"); }
-    else if (name === 'Frequently Asked Questions') { window.open("http://www.github.com/jacobsteves/eve"); }
-    else if (name === 'View Documentation') { window.open("http://www.github.com/jacobsteves/eve"); }
+    else if (name === 'Frequently Asked Questions') { window.open("http://www.github.com/jacobsteves/eve/issues"); }
+    else if (name === 'View Documentation') { window.open("https://github.com/jacobsteves/Eve/blob/master/README.md"); }
+    else if (name === 'View License') { window.open("https://github.com/jacobsteves/Eve/blob/master/LICENSE"); }
     else if (name === 'Preferences') { this.props.toggleEditMode(true) }
     else if (name === 'Save File') { this.props.toggleMustSave(true) }
+    else if (name === 'About Eve') { alert(Package.description) }
+    else if (name === 'Version') { alert(Package.version) }
     else { alert(name); }
     this.close(id);
   },
