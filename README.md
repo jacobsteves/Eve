@@ -20,14 +20,14 @@ Eve is a web application allowing users to edit code on their website directly t
 ### Prerequisites
 1. **Install [Node 4.0.0 or greater](https://nodejs.org)** - (5.0 or greater is recommended for optimal build performance). Need to run multiple versions of Node? Use [nvm](https://github.com/creationix/nvm).
 2. **Install [Git](https://git-scm.com/downloads)**.
+3. **[Disable safe write in your editor](http://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write)** to assure hot reloading works properly.
 
 ### Frontend
 1. Run:
 ```
 git clone https://github.com/jacobsteves/Eve.git
 ``` 
-2. **[Disable safe write in your editor](http://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write)** to assure hot reloading works properly.
-3. **Run the app:**
+2. **Run the app:**
 ```
 npm start -s
 ```
