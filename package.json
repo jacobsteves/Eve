@@ -1,6 +1,6 @@
 {
-  "name": "eve",
-  "version": "0.1.0",
+  "name": "Eve",
+  "version": "1.0.0",
   "description": "A web application allowing users to edit code on their website directly through their site.",
   "engines": {
     "npm": ">=3"
