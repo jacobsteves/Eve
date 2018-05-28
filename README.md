@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://jacobsteves.ca/images/EveLogo.png" height="100px"/>
+  <img src="/assets/images/logo" height="100px"/>
 </p>
 
 [![Eve](https://img.shields.io/badge/Steves-Eve%20v1.0.0-brightgreen.svg)]()
